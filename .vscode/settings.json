@@ -1,0 +1,16 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "eslint.validate": ["typescript", "typescriptreact"],
+  "github-actions.workflows.pinned.workflows": [".github/workflows/*.yml"],
+  "i18n-ally.localesPaths": "public/translations",
+  "i18n-ally.pathMatcher": "{locale}.json",
+  "i18n-ally.keystyle": "flat",
+  "editor.snippetSuggestions": "bottom",
+  "cssvar.files": ["**/*.styles.ts"],
+  "editor.quickSuggestions": {
+    "strings": "on"
+  }
+}

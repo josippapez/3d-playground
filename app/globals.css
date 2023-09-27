@@ -1,0 +1,89 @@
+@tailwind base;
+@layer base {
+    /* @font-face {
+        font-family: 'Druk Wide Super';
+        src:
+            url('../assets/fonts/druk-wide-super.woff') format('woff'),
+            url('../assets/fonts/druk-wide-super.woff2') format('woff2');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Druk-Medium';
+        src:
+            url('../assets/fonts/druk-medium.woff') format('woff'),
+            url('../assets/fonts/druk-medium.woff2') format('woff2');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Switzer-Semibold';
+        src:
+            url('../assets/fonts/Switzer-Semibold.woff2') format('woff2'),
+            url('../assets/fonts/Switzer-Semibold.woff') format('woff');
+        font-weight: normal;
+        font-display: swap;
+        font-style: normal;
+    } */
+
+    /*
+    You can extend base styles here. Most are reset through Preflight. More info here: https://tailwindcss.com/docs/preflight
+
+    h1 {
+        @apply text-2xl;
+    }
+    h2 {
+        @apply text-xl;
+    }
+    h3 {
+        @apply text-lg;
+    }
+    a {
+        @apply text-blue-600 underline;
+    } */
+    html {
+        @appy font-sans;
+        @apply text-gray-1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: antialiased;
+        font-smoothing: antialiased;
+    }
+
+    body {
+        overflow: scroll;
+    }
+
+    .primary-stroke-1px {
+        -webkit-text-stroke: 1px #ff1a7a;
+    }
+
+    .primary-stroke-2px {
+        -webkit-text-stroke: 2px #ff1a7a;
+    }
+
+    .secondary-stroke-1px {
+        -webkit-text-stroke: 1px rgb(255 222 21);
+    }
+
+    .secondary-stroke-2px {
+        -webkit-text-stroke: 2px rgb(255 222 21);
+    }
+
+    * {
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+            background: #2e2e38;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #73738c;
+        }
+    }
+}
+@tailwind components;
+@tailwind utilities;
