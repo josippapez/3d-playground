@@ -1,0 +1,159 @@
+{
+	"asset":{
+		"generator":"Khronos glTF Blender I/O v3.6.27",
+		"version":"2.0"
+	},
+	"scene":0,
+	"scenes":[
+		{
+			"extras":{
+				"uuid":"817c0322-2717-403d-a3bf-613322c53d9d",
+				"assets reported":{},
+				"matlib":{
+					"lib_index":5,
+					"filter":0,
+					"cat_index":-1,
+					"all_materials":[
+						{
+							"name":"01 Plastifikacija_DB_703"
+						},
+						{
+							"name":"01 Plastifikacija_FS"
+						},
+						{
+							"name":"01 Plastifikacija_PRAG"
+						},
+						{
+							"name":"02 LED_traka"
+						},
+						{
+							"name":"02 Otisak_prsta_01"
+						},
+						{
+							"name":"02 Otisak_prsta_02"
+						},
+						{
+							"name":"03 Inox_\u010ce\u0161ljani_CILINDAR"
+						},
+						{
+							"name":"03 Inox_\u010ce\u0161ljani_RUKOHVAT"
+						},
+						{
+							"name":"03 Inox_\u010ce\u0161ljani_otisak_prsta"
+						},
+						{
+							"name":"04 Brtva"
+						},
+						{
+							"name":"04 Ostalo"
+						},
+						{
+							"name":"05 Staklo"
+						},
+						{
+							"name":"05 Staklo_rukohvat"
+						},
+						{
+							"name":"05 Staklo_tamno"
+						},
+						{
+							"name":"05 Staklo_tamno_02"
+						},
+						{
+							"name":"Corten"
+						},
+						{
+							"name":"Grass dry"
+						},
+						{
+							"name":"Staklo crno"
+						},
+						{
+							"name":"Zid"
+						}
+					],
+					"materials":[
+						{
+							"name":"01 Plastifikacija_DB_703",
+							"category":""
+						},
+						{
+							"name":"01 Plastifikacija_FS",
+							"category":""
+						},
+						{
+							"name":"01 Plastifikacija_PRAG",
+							"category":""
+						},
+						{
+							"name":"02 LED_traka",
+							"category":""
+						},
+						{
+							"name":"02 Otisak_prsta_01",
+							"category":""
+						},
+						{
+							"name":"02 Otisak_prsta_02",
+							"category":""
+						},
+						{
+							"name":"03 Inox_\u010ce\u0161ljani_CILINDAR",
+							"category":""
+						},
+						{
+							"name":"03 Inox_\u010ce\u0161ljani_RUKOHVAT",
+							"category":""
+						},
+						{
+							"name":"03 Inox_\u010ce\u0161ljani_otisak_prsta",
+							"category":""
+						},
+						{
+							"name":"04 Brtva",
+							"category":""
+						},
+						{
+							"name":"04 Ostalo",
+							"category":""
+						},
+						{
+							"name":"05 Staklo",
+							"category":""
+						},
+						{
+							"name":"05 Staklo_rukohvat",
+							"category":""
+						},
+						{
+							"name":"05 Staklo_tamno",
+							"category":""
+						},
+						{
+							"name":"05 Staklo_tamno_02",
+							"category":""
+						},
+						{
+							"name":"Corten",
+							"category":""
+						},
+						{
+							"name":"Grass dry",
+							"category":""
+						},
+						{
+							"name":"Staklo crno",
+							"category":""
+						},
+						{
+							"name":"Zid",
+							"category":""
+						}
+					],
+					"mat_index":7
+				}
+			},
+			"name":"Scene"
+		}
+	]
+}

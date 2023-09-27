@@ -37,7 +37,13 @@ export const Lights: React.FC = () => {
   const directionalLightHelperRef = useRef<DirectionalLight>(null!);
   useHelper(directionalLightHelperRef, DirectionalLightHelper, 1, 'red');
 
-  const { shadowNormalBias } = useControls({
+  const { shadowNormalBias, shadowBias } = useControls({
+    shadowBias: {
+      value: -0.0007,
+      min: -0.003,
+      max: -0.0001,
+      step: 0.0001,
+    },
     shadowNormalBias: {
       value: 0,
       min: -1,
@@ -59,7 +65,7 @@ export const Lights: React.FC = () => {
         intensity={ambientCtl.intensity}
       />
       <directionalLight
-        shadow-bias={-0.0007}
+        shadow-bias={shadowBias}
         shadow-normalBias={shadowNormalBias}
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}

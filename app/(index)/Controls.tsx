@@ -103,6 +103,18 @@ export const Controls: React.FC = () => {
               Vrata 2
             </button>
           </li>
+          <li>
+            <button
+              onClick={() => setSelectedModel('Proba.gltf')}
+              className={clsx(
+                'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
+                selectedModel === 'Proba.gltf' &&
+                  'text-gray-7 bg-secondary-darker-1',
+              )}
+            >
+              Vrata proba
+            </button>
+          </li>
         </ul>
       </div>
       <div className="fixed left-0 top-0 h-full w-full -z-1">
