@@ -2,6 +2,7 @@
 
 import { DoorCanvas } from '@app/_components/DoorCanvas';
 import clsx from 'clsx';
+import { useControls } from 'leva';
 import { useState } from 'react';
 
 export const Controls: React.FC = () => {
@@ -9,6 +10,9 @@ export const Controls: React.FC = () => {
   const [selectedModel, setSelectedModel] = useState('vrata.glb');
   const [widthSize, setWidthSize] = useState(1270);
   const [heightSize, setHeightSize] = useState(2700);
+  const { enableStats } = useControls({
+    enableStats: false,
+  });
   return (
     <>
       <div className="bg-white z-[1] col-span-12 p-12 space-y-20">
@@ -103,7 +107,7 @@ export const Controls: React.FC = () => {
       </div>
       <div className="fixed left-0 top-0 h-full w-full -z-1">
         <DoorCanvas
-          enableStats
+          enableStats={enableStats}
           position={[0, 0, 0]}
           widthSize={widthSize}
           heightSize={heightSize}
