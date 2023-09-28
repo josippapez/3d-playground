@@ -1,15 +1,40 @@
 'use client';
 
 import { useHelper } from '@react-three/drei';
-import { useThree } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import { useControls } from 'leva';
 import { useRef } from 'react';
-import { CameraHelper, DirectionalLight, DirectionalLightHelper } from 'three';
+import {
+  CameraHelper,
+  DirectionalLight,
+  DirectionalLightHelper,
+  Group,
+} from 'three';
 
-export const Lights: React.FC = () => {
+type Props = {
+  timeOfDay: 'day' | 'night';
+};
+
+export const Lights: React.FC<Props> = ({ timeOfDay }) => {
   const { scene } = useThree();
+  // const data = useGLTF('/Proba-light.glb');
+  // console.log(data);
+
+  // const newData = useFBX('/Proba-light.fbx');
+  // console.log(newData);
+
+  // const widthScale = widthSize / 1270;
+  // const heightScale = heightSize / 2700;
+
+  // Object.values(nodes).forEach((node) => {
+  //   if (node.isMesh) {
+  //     node.castShadow = true;
+  //     node.receiveShadow = true;
+  //   }
+  // });
+
   const ambientCtl = useControls('Ambient Light', {
-    visible: true,
+    visible: false,
     intensity: {
       value: 1.0,
       min: 0,
@@ -21,9 +46,9 @@ export const Lights: React.FC = () => {
   const directionalCtl = useControls('Directional Light', {
     visible: true,
     position: {
-      x: 3.3,
-      y: 1.0,
-      z: 4.4,
+      x: 3.5,
+      y: 2.0,
+      z: 4,
     },
     castShadow: true,
     intensity: {
@@ -32,10 +57,13 @@ export const Lights: React.FC = () => {
       max: 50,
       step: 1,
     },
+    nightIntensity: {
+      value: 5,
+      min: 0,
+      max: 50,
+      step: 1,
+    },
   });
-
-  const directionalLightHelperRef = useRef<DirectionalLight>(null!);
-  useHelper(directionalLightHelperRef, DirectionalLightHelper, 1, 'red');
 
   const { shadowNormalBias, shadowBias } = useControls({
     shadowBias: {
@@ -52,39 +80,113 @@ export const Lights: React.FC = () => {
     },
   });
 
+  const directionalLightHelperRef = useRef<DirectionalLight>(null!);
+  const directionalLightHelperRef2 = useRef<DirectionalLight>(null!);
+  const lightGroupRef = useRef<Group>(null!);
+  useHelper(directionalLightHelperRef, DirectionalLightHelper, 1, 'red');
+  useHelper(directionalLightHelperRef2, DirectionalLightHelper, 1, 'black');
+
   if (directionalLightHelperRef.current) {
     const cameraHelper = new CameraHelper(
       directionalLightHelperRef.current.shadow.camera,
     );
     scene.add(cameraHelper);
   }
+
+  let currentDelta = 0; // needed for keeping track of rotation; It resets when timeOfDay changes so the light can rotate again
+  const initialTimeOfDay = useRef('day'); // needed for keeping track of timeOfDay
+
+  useFrame(() => {
+    if (timeOfDay === 'night' && timeOfDay !== initialTimeOfDay.current) {
+      if (currentDelta <= Math.PI) {
+        currentDelta += 0.01;
+        lightGroupRef.current.rotation.z += 0.01;
+      } else {
+        initialTimeOfDay.current = timeOfDay;
+      }
+
+      if (directionalLightHelperRef.current.intensity > 0) {
+        directionalLightHelperRef.current.intensity -= 0.1;
+      }
+
+      if (
+        directionalLightHelperRef2.current.intensity <=
+        directionalCtl.nightIntensity
+      ) {
+        directionalLightHelperRef2.current.intensity += 0.05;
+      }
+    }
+
+    if (timeOfDay === 'day' && timeOfDay !== initialTimeOfDay.current) {
+      if (currentDelta <= Math.PI) {
+        currentDelta += 0.01;
+        lightGroupRef.current.rotation.z += 0.01;
+      } else {
+        initialTimeOfDay.current = timeOfDay;
+      }
+
+      if (
+        directionalLightHelperRef.current.intensity < directionalCtl.intensity
+      ) {
+        directionalLightHelperRef.current.intensity += 0.1;
+      }
+
+      if (directionalLightHelperRef2.current.intensity > 0) {
+        directionalLightHelperRef2.current.intensity -= 0.05;
+      }
+    }
+  });
+
   return (
     <>
       <ambientLight
         visible={ambientCtl.visible}
         intensity={ambientCtl.intensity}
       />
-      <directionalLight
-        shadow-bias={shadowBias}
-        shadow-normalBias={shadowNormalBias}
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
-        shadow-camera-near={0}
-        shadow-camera-far={25}
-        shadow-camera-left={-3}
-        shadow-camera-right={3}
-        shadow-camera-top={3}
-        shadow-camera-bottom={-3}
-        ref={directionalLightHelperRef}
-        visible={directionalCtl.visible}
-        position={[
-          directionalCtl.position.x,
-          directionalCtl.position.y,
-          directionalCtl.position.z,
-        ]}
-        intensity={directionalCtl.intensity}
-        castShadow={directionalCtl.castShadow}
-      />
+      <group ref={lightGroupRef}>
+        <directionalLight
+          shadow-bias={shadowBias}
+          shadow-normalBias={shadowNormalBias}
+          shadow-mapSize-width={1024}
+          shadow-mapSize-height={1024}
+          shadow-camera-near={0}
+          shadow-camera-far={25}
+          shadow-camera-left={-3}
+          shadow-camera-right={3}
+          shadow-camera-top={3}
+          shadow-camera-bottom={-3}
+          ref={directionalLightHelperRef}
+          visible={directionalCtl.visible}
+          intensity={directionalCtl.intensity}
+          castShadow={directionalCtl.castShadow}
+          position={[
+            directionalCtl.position.x,
+            directionalCtl.position.y,
+            directionalCtl.position.z,
+          ]}
+        />
+        <directionalLight
+          shadow-bias={shadowBias}
+          shadow-normalBias={shadowNormalBias}
+          shadow-mapSize-width={1024}
+          shadow-mapSize-height={1024}
+          shadow-camera-near={0}
+          shadow-camera-far={25}
+          shadow-camera-left={-3}
+          shadow-camera-right={3}
+          shadow-camera-top={3}
+          shadow-camera-bottom={-3}
+          ref={directionalLightHelperRef2}
+          visible={directionalCtl.visible}
+          intensity={0}
+          castShadow={directionalCtl.castShadow}
+          position={[
+            -directionalCtl.position.x,
+            -directionalCtl.position.y,
+            directionalCtl.position.z,
+          ]}
+        />
+      </group>
     </>
   );
 };

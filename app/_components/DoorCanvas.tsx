@@ -63,7 +63,7 @@ export function DoorCanvas(
     >
       <Suspense fallback={<Loader />}>
         <Skybox timeOfDay={props.timeOfDay} />
-        <Lights />
+        <Lights timeOfDay={props.timeOfDay} />
         <Effects />
         <Environment files={'/studio_garden_1k.hdr'} />
         <DoorModel {...props} />

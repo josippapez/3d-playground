@@ -1,11 +1,12 @@
 'use client';
 
 import { Bounds, useGLTF } from '@react-three/drei';
+import { Mesh, MeshPhysicalMaterial, Object3D, PointLight } from 'three';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 
 type GLTFDoorResult = GLTF & {
-  nodes: Record<string, THREE.Mesh>;
-  materials: Record<string, THREE.MeshPhysicalMaterial>;
+  nodes: Record<string, Mesh | PointLight | Object3D>;
+  materials: Record<string, MeshPhysicalMaterial>;
 };
 
 type Props = {
@@ -25,8 +26,8 @@ export const DoorModel: React.FC<Props> = ({
   const widthScale = widthSize / 1270;
   const heightScale = heightSize / 2700;
 
-  Object.values(nodes).forEach((node) => {
-    if (node.isMesh) {
+  Object.values(nodes).forEach((node, index) => {
+    if (node instanceof Mesh) {
       node.castShadow = true;
       node.receiveShadow = true;
     }

@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 export const Controls: React.FC = () => {
   const [timeOfDay, setTimeOfDay] = useState<'day' | 'night'>('day');
-  const [selectedModel, setSelectedModel] = useState('vrata.glb');
+  const [selectedModel, setSelectedModel] = useState('vrata-draco-2.gltf');
   const [widthSize, setWidthSize] = useState(1270);
   const [heightSize, setHeightSize] = useState(2700);
   const { enableStats } = useControls({
@@ -56,6 +56,7 @@ export const Controls: React.FC = () => {
         <ul className="space-y-8">
           <li>
             <button
+              data-time-of-day="day"
               onClick={() => setTimeOfDay('day')}
               className={clsx(
                 'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
@@ -67,6 +68,7 @@ export const Controls: React.FC = () => {
           </li>
           <li>
             <button
+              data-time-of-day="night"
               onClick={() => setTimeOfDay('night')}
               className={clsx(
                 'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
@@ -93,10 +95,10 @@ export const Controls: React.FC = () => {
           </li>
           <li>
             <button
-              onClick={() => setSelectedModel('vrata.glb')}
+              onClick={() => setSelectedModel('vrata.gltf')}
               className={clsx(
                 'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                selectedModel === 'vrata.glb' &&
+                selectedModel === 'vrata.gltf' &&
                   'text-gray-7 bg-secondary-darker-1',
               )}
             >
@@ -105,14 +107,14 @@ export const Controls: React.FC = () => {
           </li>
           <li>
             <button
-              onClick={() => setSelectedModel('Proba.gltf')}
+              onClick={() => setSelectedModel('vrata-draco-2.gltf')}
               className={clsx(
                 'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                selectedModel === 'Proba.gltf' &&
+                selectedModel === 'vrata-draco-2.gltf' &&
                   'text-gray-7 bg-secondary-darker-1',
               )}
             >
-              Vrata proba
+              Vrata 2 -compressed
             </button>
           </li>
         </ul>
