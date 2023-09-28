@@ -78,7 +78,7 @@ export function DoorCanvas(
         />
       </GizmoHelper>
       <axesHelper args={[3]} />
-      {process.env.NODE_ENV === 'development' && props.enableStats && <Stats />}
+      {props.enableStats && <Stats />}
     </Canvas>
   );
 }
