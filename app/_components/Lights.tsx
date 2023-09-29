@@ -44,7 +44,7 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
       step: 1,
     },
     nightIntensity: {
-      value: 5,
+      value: 0,
       min: 0,
       max: 50,
       step: 1,
@@ -52,6 +52,8 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
     nightColor: '#5b72b9',
     dayColor: '#ffffff',
   });
+
+  const initialNightIntensity = 10;
 
   const { shadowNormalBias, shadowBias } = useControls({
     shadowBias: {
@@ -105,7 +107,7 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
 
       if (
         directionalLightHelperRef2.current.intensity <=
-        directionalCtl.nightIntensity
+        initialNightIntensity
       ) {
         directionalLightHelperRef2.current.intensity += 0.05;
       }
@@ -173,7 +175,7 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
           shadow-camera-bottom={-3}
           ref={directionalLightHelperRef2}
           visible={directionalCtl.visible}
-          intensity={0}
+          intensity={directionalCtl.nightIntensity}
           castShadow={directionalCtl.castShadow}
           position={[
             -directionalCtl.position.x,
