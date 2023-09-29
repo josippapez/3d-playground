@@ -6,6 +6,7 @@ import { useControls } from 'leva';
 import { useRef } from 'react';
 import {
   CameraHelper,
+  Color,
   DirectionalLight,
   DirectionalLightHelper,
   Group,
@@ -17,24 +18,8 @@ type Props = {
 
 export const Lights: React.FC<Props> = ({ timeOfDay }) => {
   const { scene } = useThree();
-  // const data = useGLTF('/Proba-light.glb');
-  // console.log(data);
-
-  // const newData = useFBX('/Proba-light.fbx');
-  // console.log(newData);
-
-  // const widthScale = widthSize / 1270;
-  // const heightScale = heightSize / 2700;
-
-  // Object.values(nodes).forEach((node) => {
-  //   if (node.isMesh) {
-  //     node.castShadow = true;
-  //     node.receiveShadow = true;
-  //   }
-  // });
-
   const ambientCtl = useControls('Ambient Light', {
-    visible: false,
+    visible: true,
     intensity: {
       value: 1.0,
       min: 0,
@@ -45,6 +30,7 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
 
   const directionalCtl = useControls('Directional Light', {
     visible: true,
+    // enableHelpers: true,
     position: {
       x: 3.5,
       y: 2.0,
@@ -52,7 +38,7 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
     },
     castShadow: true,
     intensity: {
-      value: 20,
+      value: 10,
       min: 0,
       max: 50,
       step: 1,
@@ -63,6 +49,8 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
       max: 50,
       step: 1,
     },
+    nightColor: '#5b72b9',
+    dayColor: '#ffffff',
   });
 
   const { shadowNormalBias, shadowBias } = useControls({
@@ -83,15 +71,21 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
   const directionalLightHelperRef = useRef<DirectionalLight>(null!);
   const directionalLightHelperRef2 = useRef<DirectionalLight>(null!);
   const lightGroupRef = useRef<Group>(null!);
-  useHelper(directionalLightHelperRef, DirectionalLightHelper, 1, 'red');
-  useHelper(directionalLightHelperRef2, DirectionalLightHelper, 1, 'black');
+  // useHelper(directionalLightHelperRef, DirectionalLightHelper, 1, 'red');
+  // useHelper(directionalLightHelperRef2, DirectionalLightHelper, 1, 'black');
 
-  if (directionalLightHelperRef.current) {
-    const cameraHelper = new CameraHelper(
-      directionalLightHelperRef.current.shadow.camera,
-    );
-    scene.add(cameraHelper);
-  }
+  // if (
+  //   directionalLightHelperRef.current &&
+  //   directionalLightHelperRef2.current
+  // ) {
+  //   const cameraHelper = new CameraHelper(
+  //     directionalLightHelperRef.current.shadow.camera,
+  //   );
+  //   const cameraHelper2 = new CameraHelper(
+  //     directionalLightHelperRef2.current.shadow.camera,
+  //   );
+  //   scene.add(cameraHelper, cameraHelper2);
+  // }
 
   let currentDelta = 0; // needed for keeping track of rotation; It resets when timeOfDay changes so the light can rotate again
   const initialTimeOfDay = useRef('day'); // needed for keeping track of timeOfDay
@@ -164,6 +158,7 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
             directionalCtl.position.y,
             directionalCtl.position.z,
           ]}
+          color={directionalCtl.dayColor}
         />
         <directionalLight
           shadow-bias={shadowBias}
@@ -185,6 +180,7 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
             -directionalCtl.position.y,
             directionalCtl.position.z,
           ]}
+          color={directionalCtl.nightColor}
         />
       </group>
     </>

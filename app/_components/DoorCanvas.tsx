@@ -14,15 +14,7 @@ import {
   Stats,
 } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { useControls } from 'leva';
 import { Suspense } from 'react';
-import {
-  ACESFilmicToneMapping,
-  CineonToneMapping,
-  LinearToneMapping,
-  NoToneMapping,
-  ReinhardToneMapping,
-} from 'three';
 
 export function DoorCanvas(
   props: JSX.IntrinsicElements['group'] & {
@@ -34,31 +26,16 @@ export function DoorCanvas(
     heightSize: number;
   },
 ) {
-  const { toneMapping, toneMappingExp } = useControls({
-    toneMapping: {
-      value: ReinhardToneMapping,
-      options: {
-        No: NoToneMapping,
-        Linear: LinearToneMapping,
-        Reinhard: ReinhardToneMapping,
-        Cineon: CineonToneMapping,
-        ACESFilmic: ACESFilmicToneMapping,
-      },
-    },
-    toneMappingExp: {
-      value: 1.5,
-      min: 0,
-      max: 10,
-      step: 0.01,
-    },
-  });
   return (
     <Canvas
       shadows
       gl={{
-        toneMapping,
-        toneMappingExposure: toneMappingExp,
         antialias: true,
+        // enable later in production
+        // antialias: false,
+        // stencil: false,
+        // depth: false,
+        // powerPreference: 'high-performance',
       }}
     >
       <Suspense fallback={<Loader />}>
