@@ -11,6 +11,7 @@ import {
   GizmoViewport,
   Grid,
   OrbitControls,
+  OrthographicCamera,
   Stats,
 } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
@@ -37,23 +38,30 @@ export function DoorCanvas(
         // depth: false,
         // powerPreference: 'high-performance',
       }}
+      camera={{
+        type: 'OrthographicCamera',
+        zoom: 1.5,
+        position: [0.5, 1, 10],
+        near: 1,
+        far: 25,
+      }}
     >
       <Suspense fallback={<Loader />}>
         <Skybox timeOfDay={props.timeOfDay} />
         <Lights timeOfDay={props.timeOfDay} />
         <Effects />
-        <Environment files={'/studio_garden_1k.hdr'} />
+        {/* <Environment files={'/studio_garden_1k.hdr'} /> */}
         <DoorModel {...props} />
-        <Floor />
-        <OrbitControls makeDefault />
+        {/* <Floor /> */}
+        {/* <OrbitControls makeDefault /> */}
       </Suspense>
       <Grid />
-      <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
+      {/* <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
         <GizmoViewport
           axisColors={['#9d4b4b', '#2f7f4f', '#3b5b9d']}
           labelColor="white"
         />
-      </GizmoHelper>
+      </GizmoHelper> */}
       <axesHelper args={[3]} />
       {props.enableStats && <Stats />}
     </Canvas>

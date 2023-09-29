@@ -26,7 +26,7 @@ export function Effects() {
     'Effects',
     {
       enableFX: true,
-      enableToneMapping: false,
+      enableToneMapping: true,
       toneMapping: {
         value: ToneMappingMode.OPTIMIZED_CINEON,
         options: {
