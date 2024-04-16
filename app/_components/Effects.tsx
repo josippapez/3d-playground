@@ -4,6 +4,7 @@ import {
   EffectComposer,
   Noise,
   SMAA,
+  SSR,
   ToneMapping,
 } from '@react-three/postprocessing';
 import { useControls } from 'leva';
@@ -40,7 +41,7 @@ export function Effects() {
       },
       luminanceThreshold: { value: 4, min: 0, max: 4, step: 0.05 },
       luminanceSmoothing: { value: 50, min: 0, max: 50, step: 1 },
-      intensity: { value: 0.20, min: 0, max: 1, step: 0.01 },
+      intensity: { value: 0.2, min: 0, max: 1, step: 0.01 },
       maxLuminance: { value: 50, min: 0, max: 50, step: 1 },
       minLuminance: { value: 0, min: 0, max: 50, step: 1 },
       whitePoint: { value: 16, min: 0, max: 64, step: 1 },
@@ -51,51 +52,37 @@ export function Effects() {
     },
   );
 
-  return useMemo(
-    () => (
-      <EffectComposer
-        camera={camera}
-        scene={scene}
-        multisampling={8}
+  return (
+    <EffectComposer
+      camera={camera}
+      scene={scene}
+      multisampling={8}
+      resolutionScale={1}
+      renderPriority={2}
+      enableNormalPass
+      enabled={enableFX}
+    >
+      <SMAA />
+      <Bloom
+        luminanceThreshold={luminanceThreshold}
+        mipmapBlur
         resolutionScale={1}
-        renderPriority={2}
-        disableNormalPass={false}
-        enabled={enableFX}
-      >
-        <SMAA />
-        <Bloom
-          luminanceThreshold={luminanceThreshold}
-          mipmapBlur
-          luminanceSmoothing={luminanceSmoothing}
-          intensity={intensity}
+        luminanceSmoothing={luminanceSmoothing}
+        intensity={intensity}
+      />
+      <Noise opacity={0.02} />
+      {enableToneMapping ? (
+        <ToneMapping
+          mainCamera={camera}
+          mainScene={scene}
+          mode={toneMapping}
+          whitePoint={whitePoint}
+          maxLuminance={maxLuminance}
+          minLuminance={minLuminance}
         />
-        <Noise opacity={0.02} />
-        {enableToneMapping ? (
-          <ToneMapping
-            mainCamera={camera}
-            mainScene={scene}
-            mode={toneMapping}
-            whitePoint={whitePoint}
-            maxLuminance={maxLuminance}
-            minLuminance={minLuminance}
-          />
-        ) : (
-          <></>
-        )}
-      </EffectComposer>
-    ),
-    [
-      camera,
-      enableFX,
-      enableToneMapping,
-      intensity,
-      luminanceSmoothing,
-      luminanceThreshold,
-      maxLuminance,
-      minLuminance,
-      scene,
-      toneMapping,
-      whitePoint,
-    ],
+      ) : (
+        <></>
+      )}
+    </EffectComposer>
   );
 }

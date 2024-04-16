@@ -22,8 +22,8 @@ export const Floor: React.FC = () => {
   });
 
   return (
-    <mesh rotation-x={[-Math.PI / 2]} receiveShadow position={[0, -0.44, 0]}>
-      <planeGeometry args={[100, 100, 1, 1]} />
+    <mesh receiveShadow position={[0, 0, -1]}>
+      <planeGeometry args={[10, 10, 1, 1]} />
       <meshStandardMaterial
         roughnessMap={roughnessMap}
         aoMap={ambientOcclusion}

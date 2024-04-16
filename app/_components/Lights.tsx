@@ -58,14 +58,14 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
   const { shadowNormalBias, shadowBias } = useControls({
     shadowBias: {
       value: -0.0014,
-      min: -0.003,
-      max: -0.0001,
+      min: -0.0030,
+      max: 0.0010,
       step: 0.0001,
     },
     shadowNormalBias: {
       value: 0,
-      min: -1,
-      max: 1,
+      min: -0.020,
+      max: 0.020,
       step: 0.001,
     },
   });
