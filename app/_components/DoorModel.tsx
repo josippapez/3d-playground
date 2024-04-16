@@ -31,11 +31,6 @@ import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import { easing, geometry } from 'maath';
 import { HtmlProps } from '@react-three/drei/web/Html';
 
-type GLTFDoorResult = GLTF & {
-  nodes: Record<string, Mesh | PointLight | Object3D>;
-  materials: Record<string, MeshPhysicalMaterial>;
-};
-
 type Props = {
   widthSize: number;
   heightSize: number;
@@ -50,9 +45,7 @@ export const DoorModel: React.FC<Props> = ({
 }) => {
   const group = useRef<any>();
   const light = useRef<any>();
-  const { nodes, scene, animations, scenes } = useGLTF(
-    '/' + selectedModel,
-  ) as GLTFDoorResult;
+  const { nodes, scene, animations, scenes } = useGLTF('/' + selectedModel);
 
   const { ref, mixer, names, actions, clips } = useAnimations(animations);
 
@@ -92,7 +85,7 @@ export const DoorModel: React.FC<Props> = ({
         }
       }
     });
-  }, [selectedModel, nodes]);
+  }, [nodes]);
 
   useEffect(() => {
     // Reset and fade in animation after an index has been changed
