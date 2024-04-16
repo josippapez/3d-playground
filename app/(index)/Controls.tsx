@@ -335,7 +335,7 @@ const Player = () => {
     size: 1,
   });
 
-  const playerRef = useRef<THREE.Mesh>();
+  const playerRef = useRef<any>();
 
   // add WASD controls to move the player
   const speed = 50;

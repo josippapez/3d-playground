@@ -3,6 +3,8 @@
 import {
   Bounds,
   Html,
+  Plane,
+  RoundedBox,
   Stage,
   useAnimations,
   useFBX,
@@ -14,6 +16,7 @@ import { useControls } from 'leva';
 import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Clock,
+  DoubleSide,
   Mesh,
   MeshBasicMaterial,
   MeshLambertMaterial,
@@ -26,6 +29,7 @@ import {
 } from 'three';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import { easing, geometry } from 'maath';
+import { HtmlProps } from '@react-three/drei/web/Html';
 
 type GLTFDoorResult = GLTF & {
   nodes: Record<string, Mesh | PointLight | Object3D>;
@@ -44,8 +48,8 @@ export const DoorModel: React.FC<Props> = ({
   selectedModel,
   ...props
 }) => {
-  const group = useRef<MutableRefObject<Object3D | undefined>>();
-  const light = useRef<MutableRefObject<SpotLight | undefined>>();
+  const group = useRef<any>();
+  const light = useRef<any>();
   const { nodes, scene, animations, scenes } = useGLTF(
     '/' + selectedModel,
   ) as GLTFDoorResult;
@@ -94,7 +98,9 @@ export const DoorModel: React.FC<Props> = ({
     // Reset and fade in animation after an index has been changed
     actions[animationName]?.reset().fadeIn(0.5).play();
     // In the clean-up phase, fade it out
-    return () => actions[animationName]?.fadeOut(0.5);
+    return () => {
+      actions[animationName]?.fadeOut(0.5);
+    };
   }, [animationName, actions, names]);
 
   useFrame((state, delta) => {
@@ -130,7 +136,7 @@ export const DoorModel: React.FC<Props> = ({
       <group {...props} ref={group}>
         <primitive object={scene} />
         {/* <Annotation position={[1.75, 3, 2.5]}>
-          OAKSDOKSD <span style={{ fontSize: '1.5em' }}>🌗</span>
+          Test <span style={{ fontSize: '1.5em' }}>🌗</span>
         </Annotation> */}
         <spotLight
           angle={0.5}
@@ -151,23 +157,19 @@ export const DoorModel: React.FC<Props> = ({
   );
 };
 
-function Annotation({ children, ...props }) {
+const Annotation: React.FC<
+  {
+    children: React.ReactNode;
+  } & HtmlProps
+> = ({ children, ...props }) => {
   return (
     <Html
       {...props}
       transform
       occlude="blending"
-      className="rounded-2xl bg-white"
-      // geometry={
-      //   /** The geometry is optional, it allows you to use any shape.
-      //    *  By default it would be a plane. We need round edges here ...
-      //    */
-      //   <roundedPlaneGeometry args={[1.66, 0.47, 0.24]} />
-      // }
+      className="bg-white rounded-2xl"
     >
-      <div className="annotation" onClick={() => console.log('.')}>
-        {children}
-      </div>
+      <div onClick={() => console.log('.')}>{children}</div>
     </Html>
   );
-}
+};

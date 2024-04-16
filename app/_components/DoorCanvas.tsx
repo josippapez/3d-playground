@@ -32,7 +32,7 @@ export function DoorCanvas(
     heightSize: number;
   },
 ) {
-  const { impl, debug, enabled, samples, focus, size } = useControls({
+  const { debug, enabled, samples, focus, size } = useControls({
     debug: true,
     enabled: true,
     size: { value: 35, min: 0, max: 100, step: 0.1 },
@@ -50,14 +50,14 @@ export function DoorCanvas(
         // antialias: false,
         // stencil: false,
         // depth: false,
-        // powerPreference: 'high-performance',
+        powerPreference: 'high-performance',
       }}
       camera={{
         type: 'OrthographicCamera',
         zoom: 1.5,
-        position: [0.5, 1, 10],
-        near: 1,
-        far: 25,
+        // position: [0.5, 1, 10],
+        // near: 1,
+        // far: 25,
       }}
     >
       <Suspense fallback={<Loader />}>
