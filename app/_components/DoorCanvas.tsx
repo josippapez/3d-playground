@@ -1,26 +1,11 @@
 'use client';
 import { DoorModel } from '@app/_components/DoorModel';
 import { Effects } from '@app/_components/Effects';
-import { Floor } from '@app/_components/Floor';
-import { Lights } from '@app/_components/Lights';
 import { Loader } from '@app/_components/Loader';
-import { Skybox } from '@app/_components/Skybox';
-import {
-  CameraControls,
-  Environment,
-  FlyControls,
-  GizmoHelper,
-  GizmoViewport,
-  Grid,
-  KeyboardControls,
-  OrbitControls,
-  OrthographicCamera,
-  SoftShadows,
-  Stats,
-} from '@react-three/drei';
+import { CameraControls, SoftShadows, Stats } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useControls } from 'leva';
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 
 export function DoorCanvas(
   props: JSX.IntrinsicElements['group'] & {
@@ -60,19 +45,22 @@ export function DoorCanvas(
         // far: 25,
       }}
     >
+      <pointLight position={[10, -10, -20]} intensity={10} />
+      <pointLight position={[-10, -10, -20]} intensity={10} />
+      {enabled && <SoftShadows samples={samples} />}
+      <Effects />
+      {/* <Skybox timeOfDay={props.timeOfDay} /> */}
+      {/* <Lights timeOfDay={props.timeOfDay} /> */}
+      {/* <Environment files={'/studio_garden_1k.hdr'} /> */}
+      {/* <Floor /> */}
       <Suspense fallback={<Loader />}>
-        {/* <Skybox timeOfDay={props.timeOfDay} /> */}
-        {/* <Lights timeOfDay={props.timeOfDay} /> */}
-        {/* <Environment files={'/studio_garden_1k.hdr'} /> */}
-        {/* <Floor /> */}
-        <pointLight position={[10, -10, -20]} intensity={10} />
-        <pointLight position={[-10, -10, -20]} intensity={10} />
-        {enabled && <SoftShadows samples={samples} />}
-        <Effects />
-        <DoorModel {...props} position={[0, -5.5, 0]} />
+        <DoorModel {...props} position={[0, -2.5, 0]} />
         {/* <OrbitControls makeDefault autoRotate={false} /> */}
         <CameraControls
-          maxDistance={10}
+          makeDefault
+          // prevents user interaction with the camera (zoom and movement)
+          enabled={false}
+          maxDistance={5}
           minDistance={5}
           minPolarAngle={0}
           maxPolarAngle={Math.PI / 2}
@@ -80,7 +68,7 @@ export function DoorCanvas(
           maxAzimuthAngle={Math.PI / 2}
         />
       </Suspense>
-      <Grid />
+      {/* <Grid /> */}
       {/* <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
         <GizmoViewport
           axisColors={['#9d4b4b', '#2f7f4f', '#3b5b9d']}

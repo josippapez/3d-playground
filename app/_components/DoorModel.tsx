@@ -1,35 +1,12 @@
 'use client';
 
-import {
-  Bounds,
-  Html,
-  Plane,
-  RoundedBox,
-  Stage,
-  useAnimations,
-  useFBX,
-  useGLTF,
-  useTexture,
-} from '@react-three/drei';
+import { Html, Stage, useAnimations, useGLTF } from '@react-three/drei';
+import { HtmlProps } from '@react-three/drei/web/Html';
 import { useFrame } from '@react-three/fiber';
 import { useControls } from 'leva';
-import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
-import {
-  Clock,
-  DoubleSide,
-  Mesh,
-  MeshBasicMaterial,
-  MeshLambertMaterial,
-  MeshPhysicalMaterial,
-  MeshToonMaterial,
-  Object3D,
-  Object3DEventMap,
-  PointLight,
-  SpotLight,
-} from 'three';
-import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
-import { easing, geometry } from 'maath';
-import { HtmlProps } from '@react-three/drei/web/Html';
+import { easing } from 'maath';
+import { useEffect, useMemo, useRef } from 'react';
+import { Mesh, MeshLambertMaterial } from 'three';
 
 type Props = {
   widthSize: number;
@@ -48,11 +25,6 @@ export const DoorModel: React.FC<Props> = ({
   const { nodes, scene, animations, scenes } = useGLTF('/' + selectedModel);
 
   const { ref, mixer, names, actions, clips } = useAnimations(animations);
-
-  console.log(animations, names, actions, clips, nodes, scene);
-
-  const widthScale = widthSize / 1270;
-  const heightScale = heightSize / 2700;
 
   const { animationName } = useControls(
     'Animation',
@@ -78,7 +50,6 @@ export const DoorModel: React.FC<Props> = ({
           node.material.metalness = 0.9;
         }
 
-        console.log(node);
         if (node.name === 'Node_3') {
           const lambertMaterial = new MeshLambertMaterial({ color: '#404044' });
           node.material = lambertMaterial;
@@ -97,56 +68,59 @@ export const DoorModel: React.FC<Props> = ({
   }, [animationName, actions, names]);
 
   useFrame((state, delta) => {
-    easing.dampE(
-      group.current.rotation,
-      [0, -state.pointer.x * (Math.PI / 10), 0],
-      1.5,
-      delta,
-    );
-    easing.damp3(
-      group.current.position,
-      [0, -5.5, 1 - Math.abs(state.pointer.x)],
-      1,
-      delta,
-    );
-    easing.damp3(
-      light.current.position,
-      [state.pointer.x * 12, 0, 8 + state.pointer.y * 4],
-      0.2,
-      delta,
-    );
+    if (group.current) {
+      easing.dampE(
+        group.current.rotation,
+        [0, -state.pointer.x * (Math.PI / 10), 0],
+        1.5,
+        delta,
+      );
+      easing.damp3(
+        group.current.position,
+        [0, -2.5, 1 - Math.abs(state.pointer.x)],
+        1,
+        delta,
+      );
+    }
+    if (light.current)
+      easing.damp3(
+        light.current.position,
+        [state.pointer.x * 12, state.pointer.y * 4, 5],
+        0.2,
+        delta,
+      );
   });
 
   return (
     // <Bounds fit clip observe damping={6} margin={1.2}>
-    <Stage
-      preset={'rembrandt'}
-      intensity={1}
-      shadows
-      adjustCamera
-      environment={'city'}
-    >
-      <group {...props} ref={group}>
-        <primitive object={scene} />
-        {/* <Annotation position={[1.75, 3, 2.5]}>
+    // <Stage
+    //   preset={'rembrandt'}
+    //   intensity={1}
+    //   shadows
+    //   adjustCamera
+    //   environment={'city'}
+    // >
+    <group {...props} ref={group}>
+      <primitive object={scene} />
+      {/* <Annotation position={[1.75, 3, 2.5]}>
           Test <span style={{ fontSize: '1.5em' }}>🌗</span>
         </Annotation> */}
-        <spotLight
-          angle={0.5}
-          penumbra={0.5}
-          ref={light}
-          castShadow
-          intensity={100}
-          shadow-mapSize={1024}
-          shadow-bias={-0.001}
-        >
-          <orthographicCamera
-            attach="shadow-camera"
-            args={[-10, 10, -10, 10, 0.1, 50]}
-          />
-        </spotLight>
-      </group>
-    </Stage>
+      <spotLight
+        angle={0.5}
+        penumbra={0.5}
+        ref={light}
+        castShadow
+        intensity={100}
+        shadow-mapSize={1024}
+        shadow-bias={-0.001}
+      >
+        <orthographicCamera
+          attach="shadow-camera"
+          args={[-10, 10, -10, 10, 0.1, 50]}
+        />
+      </spotLight>
+    </group>
+    // </Stage>
   );
 };
 
