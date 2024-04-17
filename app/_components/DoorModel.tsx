@@ -1,6 +1,12 @@
 'use client';
 
-import { Html, Stage, useAnimations, useGLTF } from '@react-three/drei';
+import {
+  Html,
+  Stage,
+  useAnimations,
+  useGLTF,
+  useScroll,
+} from '@react-three/drei';
 import { HtmlProps } from '@react-three/drei/web/Html';
 import { useFrame } from '@react-three/fiber';
 import { useControls } from 'leva';
@@ -37,6 +43,10 @@ export const DoorModel: React.FC<Props> = ({
     [selectedModel, nodes, names, actions],
   );
 
+  const scroll = useScroll();
+
+  console.log(nodes);
+
   useMemo(() => {
     Object.values(nodes).forEach((node, index) => {
       if (node instanceof Mesh) {
@@ -50,7 +60,11 @@ export const DoorModel: React.FC<Props> = ({
           node.material.metalness = 0.9;
         }
 
-        if (node.name === 'Node_3') {
+        if (
+          node.name === 'Node_3' ||
+          node.name === 'uploads_files_2654970_Asian+Dragon' ||
+          node.name === 'uploads_files_3362108_Horse'
+        ) {
           const lambertMaterial = new MeshLambertMaterial({ color: '#404044' });
           node.material = lambertMaterial;
         }
@@ -69,26 +83,32 @@ export const DoorModel: React.FC<Props> = ({
 
   useFrame((state, delta) => {
     if (group.current) {
-      easing.dampE(
-        group.current.rotation,
-        [0, -state.pointer.x * (Math.PI / 10), 0],
-        1.5,
-        delta,
-      );
-      easing.damp3(
-        group.current.position,
-        [0, -2.5, 1 - Math.abs(state.pointer.x)],
-        1,
-        delta,
-      );
+      // easing.dampE(
+      //   group.current.rotation,
+      //   [0, -state.pointer.x * (Math.PI / 10), 0],
+      //   1.5,
+      //   delta,
+      // );
+      // easing.damp3(
+      //   group.current.position,
+      //   [0, -2.5, 1 - Math.abs(state.pointer.x)],
+      //   1,
+      //   delta,
+      // );
+      easing.damp3(group.current.rotation, [
+        0,
+        (scroll.offset * Math.PI * Math.PI) / 2,
+        0,
+      ]);
     }
-    if (light.current)
+    if (light.current) {
       easing.damp3(
         light.current.position,
         [state.pointer.x * 12, state.pointer.y * 4, 5],
         0.2,
         delta,
       );
+    }
   });
 
   return (
@@ -100,11 +120,13 @@ export const DoorModel: React.FC<Props> = ({
     //   adjustCamera
     //   environment={'city'}
     // >
-    <group {...props} ref={group}>
-      <primitive object={scene} />
-      {/* <Annotation position={[1.75, 3, 2.5]}>
-          Test <span style={{ fontSize: '1.5em' }}>🌗</span>
+    <group>
+      <group {...props} ref={group}>
+        <primitive object={scene} />
+        {/* <Annotation position={[1.75, 3, 2.5]}>
+          Click <span style={{ fontSize: '1.5em' }}>🌗</span>
         </Annotation> */}
+      </group>
       <spotLight
         angle={0.5}
         penumbra={0.5}
@@ -113,6 +135,7 @@ export const DoorModel: React.FC<Props> = ({
         intensity={100}
         shadow-mapSize={1024}
         shadow-bias={-0.001}
+        position={[0, 0, 5]}
       >
         <orthographicCamera
           attach="shadow-camera"
@@ -133,8 +156,8 @@ const Annotation: React.FC<
     <Html
       {...props}
       transform
-      occlude="blending"
-      className="bg-white rounded-2xl"
+      occlude="raycast"
+      className="bg-white rounded-2xl hover:bg-slate-600 transition-all cursor-pointer"
     >
       <div onClick={() => console.log('.')}>{children}</div>
     </Html>

@@ -6,24 +6,14 @@ import { Floor } from '@app/_components/Floor';
 import { Lights } from '@app/_components/Lights';
 import { Loader } from '@app/_components/Loader';
 import {
-  GizmoHelper,
-  GizmoViewport,
   KeyboardControls,
   KeyboardControlsEntry,
-  OrthographicCamera,
   useKeyboardControls,
 } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import clsx from 'clsx';
 import { useControls } from 'leva';
-import {
-  Suspense,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Vector3 } from 'three';
 
 enum ControlsKeys {
@@ -43,6 +33,9 @@ export const Controls: React.FC = () => {
     enableStats: false,
     enableControls: false,
   });
+
+  const [modelProps, setModelProps] =
+    useState<JSX.IntrinsicElements['group']>();
 
   return (
     <>
@@ -247,7 +240,10 @@ export const Controls: React.FC = () => {
             </li>
             <li>
               <button
-                onClick={() => setSelectedModel('graces-draco2.glb')}
+                onClick={() => {
+                  setSelectedModel('graces-draco2.glb');
+                  setModelProps({});
+                }}
                 className={clsx(
                   'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
                   selectedModel === 'graces-draco2.glb' &&
@@ -255,6 +251,40 @@ export const Controls: React.FC = () => {
                 )}
               >
                 graces-draco2.glb
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  setSelectedModel('chinese-dragon.glb');
+                  setModelProps({
+                    scale: 0.1,
+                  });
+                }}
+                className={clsx(
+                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
+                  selectedModel === 'chinese-dragon.glb' &&
+                    'text-gray-7 bg-secondary-darker-1',
+                )}
+              >
+                chinese-dragon.glb
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  setSelectedModel('horse-sculpture.glb');
+                  setModelProps({
+                    scale: 0.15,
+                  });
+                }}
+                className={clsx(
+                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
+                  selectedModel === 'horse-sculpture.glb' &&
+                    'text-gray-7 bg-secondary-darker-1',
+                )}
+              >
+                horse-sculpture.glb
               </button>
             </li>
           </ul>
@@ -268,6 +298,7 @@ export const Controls: React.FC = () => {
           heightSize={heightSize}
           selectedModel={selectedModel}
           timeOfDay={timeOfDay}
+          {...modelProps}
         />
 
         {/* <GameCanvas timeOfDay={timeOfDay} /> */}

@@ -2,7 +2,12 @@
 import { DoorModel } from '@app/_components/DoorModel';
 import { Effects } from '@app/_components/Effects';
 import { Loader } from '@app/_components/Loader';
-import { CameraControls, SoftShadows, Stats } from '@react-three/drei';
+import {
+  CameraControls,
+  ScrollControls,
+  SoftShadows,
+  Stats,
+} from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useControls } from 'leva';
 import { Suspense } from 'react';
@@ -22,13 +27,13 @@ export function DoorCanvas(
     enabled: true,
     size: { value: 35, min: 0, max: 100, step: 0.1 },
     focus: { value: 0.5, min: 0, max: 2, step: 0.1 },
-    samples: { value: 3, min: 1, max: 40, step: 1 },
+    samples: { value: 5, min: 1, max: 40, step: 1 },
   });
 
   return (
     <Canvas
       shadows="basic"
-      className="bg-gradient-to-b from-black via-black via-[60%] to-stone-800"
+      className="bg-gradient-to-b from-black via-black via-[80%] to-stone-800"
       gl={{
         antialias: true,
         // enable later in production
@@ -54,7 +59,9 @@ export function DoorCanvas(
       {/* <Environment files={'/studio_garden_1k.hdr'} /> */}
       {/* <Floor /> */}
       <Suspense fallback={<Loader />}>
-        <DoorModel {...props} position={[0, -2.5, 0]} />
+        <ScrollControls pages={3}>
+          <DoorModel {...props} position={[0, -2.5, 0]} />
+        </ScrollControls>
         {/* <OrbitControls makeDefault autoRotate={false} /> */}
         <CameraControls
           makeDefault
