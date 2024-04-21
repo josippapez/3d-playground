@@ -15,6 +15,7 @@ import clsx from 'clsx';
 import { useControls } from 'leva';
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Vector3 } from 'three';
+import { create } from 'zustand';
 
 enum ControlsKeys {
   forward = 'forward',
@@ -23,6 +24,22 @@ enum ControlsKeys {
   right = 'right',
   jump = 'jump',
 }
+
+export const useStore = create<{
+  scroll: number;
+  mousePosition: { x: number; y: number };
+  setScroll: (scroll: number) => void;
+  setMousePosition: (x: number, y: number) => void;
+}>((set) => ({
+  scroll: 0,
+  mousePosition: { x: 0, y: 0 },
+  setScroll: (scroll) => set({ scroll }),
+  setMousePosition: (x, y) => {
+    set({
+      mousePosition: { x, y },
+    });
+  },
+}));
 
 export const Controls: React.FC = () => {
   const [timeOfDay, setTimeOfDay] = useState<'day' | 'night'>('day');
@@ -33,6 +50,24 @@ export const Controls: React.FC = () => {
     enableStats: false,
     enableControls: false,
   });
+
+  const { setScroll, setMousePosition } = useStore();
+  useEffect(() => {
+    // add mouse event listener that uses x an y position of the mouse on screen and maps them so that the 0 point is in the center of the screen. Also mapped to 0-1
+    const handleMouseMove = (e: MouseEvent) => {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      setMousePosition(
+        (e.clientX - centerX) / centerX,
+        (e.clientY - centerY) / -centerY,
+      );
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [setMousePosition]);
 
   const [modelProps, setModelProps] =
     useState<JSX.IntrinsicElements['group']>();
@@ -290,7 +325,46 @@ export const Controls: React.FC = () => {
           </ul>
         </div>
       )}
-      <div className="fixed left-0 top-0 h-full w-full -z-1">
+      <div
+        className="overflow-y-auto max-h-screen relative top-0 bg-transparent col-span-full text-white flex flex-col"
+        onScroll={(e) => {
+          setScroll(
+            // map scroll from 0 to 1
+            e.currentTarget.scrollTop /
+              (e.currentTarget.scrollHeight - e.currentTarget.clientHeight),
+          );
+        }}
+      >
+        <section
+          className="min-h-screen p-40 w-1/2 self-start backdrop-blur"
+          id="section1"
+        >
+          <button
+            onClick={() =>
+              document.getElementById('section2')?.scrollIntoView({
+                behavior: 'smooth',
+              })
+            }
+          >
+            Go next
+          </button>
+        </section>
+        <section
+          className="min-h-screen p-40 w-1/2 self-end backdrop-blur-lg"
+          id="section2"
+        >
+          <button
+            onClick={() =>
+              document.getElementById('section1')?.scrollIntoView({
+                behavior: 'smooth',
+              })
+            }
+          >
+            dfgdfgdfgdfgdfg
+          </button>
+        </section>
+      </div>
+      <div className="fixed left-0 top-0 h-full w-full -z-[1]">
         <DoorCanvas
           enableStats={enableStats}
           position={[0, 0, 0]}

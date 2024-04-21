@@ -1,5 +1,6 @@
 'use client';
 
+import { useStore } from '@app/(index)/Controls';
 import {
   Html,
   Stage,
@@ -28,6 +29,8 @@ export const DoorModel: React.FC<Props> = ({
 }) => {
   const group = useRef<any>();
   const light = useRef<any>();
+  // const scroll = useScroll();
+  const { scroll, mousePosition } = useStore();
   const { nodes, scene, animations, scenes } = useGLTF('/' + selectedModel);
 
   const { ref, mixer, names, actions, clips } = useAnimations(animations);
@@ -42,10 +45,6 @@ export const DoorModel: React.FC<Props> = ({
     },
     [selectedModel, nodes, names, actions],
   );
-
-  const scroll = useScroll();
-
-  console.log(nodes);
 
   useMemo(() => {
     Object.values(nodes).forEach((node, index) => {
@@ -97,14 +96,14 @@ export const DoorModel: React.FC<Props> = ({
       // );
       easing.damp3(group.current.rotation, [
         0,
-        (scroll.offset * Math.PI * Math.PI) / 2,
+        (scroll * Math.PI * Math.PI) / 2,
         0,
       ]);
     }
     if (light.current) {
       easing.damp3(
         light.current.position,
-        [state.pointer.x * 12, state.pointer.y * 4, 5],
+        [mousePosition.x * 12, mousePosition.y * 4, 5],
         0.2,
         delta,
       );

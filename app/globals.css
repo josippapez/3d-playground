@@ -53,10 +53,6 @@
         font-smoothing: antialiased;
     }
 
-    body {
-        overflow: scroll;
-    }
-
     .primary-stroke-1px {
         -webkit-text-stroke: 1px #ff1a7a;
     }

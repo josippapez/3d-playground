@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   return (
-    <main className="h-screen grid grid-cols-48">
+    <main className="overflow-hidden grid grid-cols-48">
       <Controls />
     </main>
   );

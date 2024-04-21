@@ -11,7 +11,7 @@ export default async function RootLayout({
   children: ReactNode;
 }) {
   return (
-    <html lang="en" className="bg-background overflow-hidden">
+    <html lang="en" className='overflow-hidden'>
       <body>
         {/* <PageTransition /> */}
         {children}

@@ -6,16 +6,18 @@ import {
   SMAA,
   SSR,
   ToneMapping,
+  DepthOfField,
+  Pixelation,
 } from '@react-three/postprocessing';
 import { useControls } from 'leva';
-import { ToneMappingMode } from 'postprocessing';
+// import { ToneMappingMode } from 'postprocessing';
 import { useMemo } from 'react';
 
 export function Effects() {
   const { scene, camera } = useThree();
   const {
     enableToneMapping,
-    toneMapping,
+    // toneMapping,
     enableFX,
     intensity,
     luminanceSmoothing,
@@ -28,17 +30,17 @@ export function Effects() {
     {
       enableFX: true,
       enableToneMapping: true,
-      toneMapping: {
-        value: ToneMappingMode.OPTIMIZED_CINEON,
-        options: {
-          optimized_cineon: ToneMappingMode.OPTIMIZED_CINEON,
-          aces_filmic: ToneMappingMode.ACES_FILMIC,
-          reinhard: ToneMappingMode.REINHARD,
-          reinhard2: ToneMappingMode.REINHARD2,
-          reinhard2_adaptive: ToneMappingMode.REINHARD2_ADAPTIVE,
-          uncharted2: ToneMappingMode.UNCHARTED2,
-        },
-      },
+      // toneMapping: {
+      //   value: ToneMappingMode.OPTIMIZED_CINEON,
+      //   options: {
+      //     optimized_cineon: ToneMappingMode.OPTIMIZED_CINEON,
+      //     aces_filmic: ToneMappingMode.ACES_FILMIC,
+      //     reinhard: ToneMappingMode.REINHARD,
+      //     reinhard2: ToneMappingMode.REINHARD2,
+      //     reinhard2_adaptive: ToneMappingMode.REINHARD2_ADAPTIVE,
+      //     uncharted2: ToneMappingMode.UNCHARTED2,
+      //   },
+      // },
       luminanceThreshold: { value: 4, min: 0, max: 4, step: 0.05 },
       luminanceSmoothing: { value: 50, min: 0, max: 50, step: 1 },
       intensity: { value: 0.2, min: 0, max: 1, step: 0.01 },
@@ -62,6 +64,13 @@ export function Effects() {
       enableNormalPass
       enabled={enableFX}
     >
+      {/* <Pixelation granularity={5} /> */}
+      <DepthOfField
+        focusDistance={0}
+        focalLength={0.02}
+        bokehScale={2}
+        height={480}
+      />
       <SMAA />
       <Bloom
         luminanceThreshold={luminanceThreshold}
@@ -72,13 +81,21 @@ export function Effects() {
       />
       <Noise opacity={0.02} />
       {enableToneMapping ? (
+        // <ToneMapping
+        //   mainCamera={camera}
+        //   mainScene={scene}
+        //   mode={toneMapping}
+        //   whitePoint={whitePoint}
+        //   maxLuminance={maxLuminance}
+        //   minLuminance={minLuminance}
+        // />
         <ToneMapping
-          mainCamera={camera}
-          mainScene={scene}
-          mode={toneMapping}
-          whitePoint={whitePoint}
-          maxLuminance={maxLuminance}
-          minLuminance={minLuminance}
+          adaptive={true} // toggle adaptive luminance map usage
+          resolution={256} // texture resolution of the luminance map
+          middleGrey={0.6} // middle grey factor
+          maxLuminance={16.0} // maximum luminance
+          averageLuminance={1.0} // average luminance
+          adaptationRate={1.0} // luminance adaptation rate
         />
       ) : (
         <></>

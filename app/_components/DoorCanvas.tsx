@@ -9,6 +9,7 @@ import {
   Stats,
 } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
+import { Pathtracer } from '@react-three/gpu-pathtracer';
 import { useControls } from 'leva';
 import { Suspense } from 'react';
 
@@ -34,6 +35,7 @@ export function DoorCanvas(
     <Canvas
       shadows="basic"
       className="bg-gradient-to-b from-black via-black via-[80%] to-stone-800"
+      // className='white'
       gl={{
         antialias: true,
         // enable later in production
@@ -50,6 +52,7 @@ export function DoorCanvas(
         // far: 25,
       }}
     >
+      {/* <Pathtracer> */}
       <pointLight position={[10, -10, -20]} intensity={10} />
       <pointLight position={[-10, -10, -20]} intensity={10} />
       {enabled && <SoftShadows samples={samples} />}
@@ -59,9 +62,9 @@ export function DoorCanvas(
       {/* <Environment files={'/studio_garden_1k.hdr'} /> */}
       {/* <Floor /> */}
       <Suspense fallback={<Loader />}>
-        <ScrollControls pages={3}>
-          <DoorModel {...props} position={[0, -2.5, 0]} />
-        </ScrollControls>
+        {/* <ScrollControls pages={3}> */}
+        <DoorModel {...props} position={[0, -2.5, 0]} />
+        {/* </ScrollControls> */}
         {/* <OrbitControls makeDefault autoRotate={false} /> */}
         <CameraControls
           makeDefault
@@ -75,6 +78,7 @@ export function DoorCanvas(
           maxAzimuthAngle={Math.PI / 2}
         />
       </Suspense>
+      {/* </Pathtracer> */}
       {/* <Grid /> */}
       {/* <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
         <GizmoViewport
