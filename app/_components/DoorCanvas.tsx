@@ -2,14 +2,8 @@
 import { DoorModel } from '@app/_components/DoorModel';
 import { Effects } from '@app/_components/Effects';
 import { Loader } from '@app/_components/Loader';
-import {
-  CameraControls,
-  ScrollControls,
-  SoftShadows,
-  Stats,
-} from '@react-three/drei';
+import { CameraControls, Environment, SoftShadows, Stats } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { Pathtracer } from '@react-three/gpu-pathtracer';
 import { useControls } from 'leva';
 import { Suspense } from 'react';
 
@@ -34,19 +28,19 @@ export function DoorCanvas(
   return (
     <Canvas
       shadows="basic"
-      className="bg-gradient-to-b from-black via-black via-[80%] to-stone-800"
-      // className='white'
+      // className="bg-gradient-to-b from-black via-black via-[80%] to-stone-800"
+      className="bg-stone-950"
       gl={{
-        antialias: true,
+        // antialias: true,
         // enable later in production
-        // antialias: false,
-        // stencil: false,
-        // depth: false,
+        antialias: false,
+        stencil: false,
+        depth: false,
         powerPreference: 'high-performance',
       }}
       camera={{
         type: 'OrthographicCamera',
-        zoom: 1.5,
+        zoom: 1.3,
         // position: [0.5, 1, 10],
         // near: 1,
         // far: 25,

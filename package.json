@@ -30,7 +30,6 @@
     "server-only": "^0.0.1",
     "sharp": "^0.32.6",
     "swiper": "^10.3.1",
-    "tailwindcss-fluid-type": "^2.0.3",
     "three": "^0.156.1",
     "zustand": "^4.5.2"
   },
@@ -45,6 +44,7 @@
     "@storybook/nextjs": "^7.4.5",
     "@storybook/react": "^7.4.5",
     "@storybook/testing-library": "^0.2.1",
+    "@tailwindcss/typography": "^0.5.12",
     "@types/node": "20.7.1",
     "@types/prettier": "^3.0.0",
     "@types/react": "18.2.23",
@@ -63,7 +63,7 @@
     "slice-machine-ui": "^1.14.1",
     "storybook": "^7.4.5",
     "storybook-react-intl": "^2.0.3",
-    "tailwindcss": "^3.3.3",
+    "tailwindcss": "^3.4.3",
     "typescript": "^5.2.2"
   }
 }

@@ -3,6 +3,7 @@
 import { useStore } from '@app/(index)/Controls';
 import {
   Html,
+  MeshReflectorMaterial,
   Stage,
   useAnimations,
   useGLTF,
@@ -94,11 +95,7 @@ export const DoorModel: React.FC<Props> = ({
       //   1,
       //   delta,
       // );
-      easing.damp3(group.current.rotation, [
-        0,
-        (scroll * Math.PI * Math.PI) / 2,
-        0,
-      ]);
+      easing.damp3(group.current.rotation, [0, scroll * (Math.PI * 2), 0]);
     }
     if (light.current) {
       easing.damp3(
@@ -126,12 +123,27 @@ export const DoorModel: React.FC<Props> = ({
           Click <span style={{ fontSize: '1.5em' }}>🌗</span>
         </Annotation> */}
       </group>
+      {/* <mesh position={props.position} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[5, 5]} />
+        <MeshReflectorMaterial
+          mirror={1}
+          blur={[400, 100]}
+          resolution={1024}
+          mixBlur={1}
+          mixStrength={15}
+          depthScale={1}
+          minDepthThreshold={0.85}
+          color="#151515"
+          metalness={0.6}
+          roughness={1}
+        />
+      </mesh> */}
       <spotLight
         angle={0.5}
         penumbra={0.5}
         ref={light}
         castShadow
-        intensity={100}
+        intensity={150}
         shadow-mapSize={1024}
         shadow-bias={-0.001}
         position={[0, 0, 5]}

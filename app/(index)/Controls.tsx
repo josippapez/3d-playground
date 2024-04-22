@@ -74,259 +74,8 @@ export const Controls: React.FC = () => {
 
   return (
     <>
-      {enableControls && (
-        <div className="bg-white z-[1] col-span-12 p-12 space-y-20">
-          <p>Resize width</p>
-          <input
-            type="range"
-            min={800}
-            max={1270}
-            step={1}
-            defaultValue={widthSize}
-            onChange={(e) => setWidthSize(parseFloat(e.target.value))}
-            className="w-full"
-          />
-          <input
-            type="number"
-            min={800}
-            max={1270}
-            value={widthSize}
-            onChange={(e) => setWidthSize(parseFloat(e.target.value))}
-            className="w-full bg-gray-5 text-gray-2 px-16 py-4 rounded"
-          />
-          <p>Resize height</p>
-          <input
-            type="range"
-            min={2000}
-            max={2700}
-            step={1}
-            defaultValue={heightSize}
-            onChange={(e) => setHeightSize(parseFloat(e.target.value))}
-            className="w-full"
-          />
-          <input
-            type="number"
-            min={2000}
-            max={2700}
-            value={heightSize}
-            onChange={(e) => setHeightSize(parseFloat(e.target.value))}
-            className="w-full bg-gray-5 text-gray-2 px-16 py-4 rounded"
-          />
-          <p>Time of Day</p>
-          <ul className="space-y-8">
-            <li>
-              <button
-                data-time-of-day="day"
-                onClick={() => setTimeOfDay('day')}
-                className={clsx(
-                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                  timeOfDay === 'day' && 'text-gray-7 bg-secondary-darker-1',
-                )}
-              >
-                Day
-              </button>
-            </li>
-            <li>
-              <button
-                data-time-of-day="night"
-                onClick={() => setTimeOfDay('night')}
-                className={clsx(
-                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                  timeOfDay === 'night' && 'text-gray-7 bg-secondary-darker-1',
-                )}
-              >
-                Night
-              </button>
-            </li>
-          </ul>
-          <p>Models</p>
-          <ul className="space-y-8">
-            <li>
-              <button
-                onClick={() => setSelectedModel('vrata-draco.gltf')}
-                className={clsx(
-                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                  selectedModel === 'vrata-draco.gltf' &&
-                    'text-gray-7 bg-secondary-darker-1',
-                )}
-              >
-                Vrata Draco
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => setSelectedModel('vrata.gltf')}
-                className={clsx(
-                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                  selectedModel === 'vrata.gltf' &&
-                    'text-gray-7 bg-secondary-darker-1',
-                )}
-              >
-                Vrata 2
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => setSelectedModel('vrata-draco-2.gltf')}
-                className={clsx(
-                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                  selectedModel === 'vrata-draco-2.gltf' &&
-                    'text-gray-7 bg-secondary-darker-1',
-                )}
-              >
-                Vrata 2 -compressed
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => setSelectedModel('iphone13proDraco.glb')}
-                className={clsx(
-                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                  selectedModel === 'iphone13proDraco.glb' &&
-                    'text-gray-7 bg-secondary-darker-1',
-                )}
-              >
-                Iphone 13
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => setSelectedModel('heart.glb')}
-                className={clsx(
-                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                  selectedModel === 'heart.glb' &&
-                    'text-gray-7 bg-secondary-darker-1',
-                )}
-              >
-                Heart
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => setSelectedModel('portal.glb')}
-                className={clsx(
-                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                  selectedModel === 'portal.glb' &&
-                    'text-gray-7 bg-secondary-darker-1',
-                )}
-              >
-                Portal
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => setSelectedModel('knight.gltf')}
-                className={clsx(
-                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                  selectedModel === 'knight.gltf' &&
-                    'text-gray-7 bg-secondary-darker-1',
-                )}
-              >
-                Knight
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => setSelectedModel('kocka.glb')}
-                className={clsx(
-                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                  selectedModel === 'kocka.glb' &&
-                    'text-gray-7 bg-secondary-darker-1',
-                )}
-              >
-                kocka
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => setSelectedModel('car.glb')}
-                className={clsx(
-                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                  selectedModel === 'car.glb' &&
-                    'text-gray-7 bg-secondary-darker-1',
-                )}
-              >
-                car
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => setSelectedModel('CLOTCHFUBd.glb')}
-                className={clsx(
-                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                  selectedModel === 'CLOTCHFUBd.glb' &&
-                    'text-gray-7 bg-secondary-darker-1',
-                )}
-              >
-                CLOTCHFUBd.glb
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => setSelectedModel('heart_baked.glb')}
-                className={clsx(
-                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                  selectedModel === 'heart_baked.glb' &&
-                    'text-gray-7 bg-secondary-darker-1',
-                )}
-              >
-                heart_baked.glb
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => {
-                  setSelectedModel('graces-draco2.glb');
-                  setModelProps({});
-                }}
-                className={clsx(
-                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                  selectedModel === 'graces-draco2.glb' &&
-                    'text-gray-7 bg-secondary-darker-1',
-                )}
-              >
-                graces-draco2.glb
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => {
-                  setSelectedModel('chinese-dragon.glb');
-                  setModelProps({
-                    scale: 0.1,
-                  });
-                }}
-                className={clsx(
-                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                  selectedModel === 'chinese-dragon.glb' &&
-                    'text-gray-7 bg-secondary-darker-1',
-                )}
-              >
-                chinese-dragon.glb
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => {
-                  setSelectedModel('horse-sculpture.glb');
-                  setModelProps({
-                    scale: 0.15,
-                  });
-                }}
-                className={clsx(
-                  'bg-gray-5 text-gray-2 w-full px-16 py-4 rounded',
-                  selectedModel === 'horse-sculpture.glb' &&
-                    'text-gray-7 bg-secondary-darker-1',
-                )}
-              >
-                horse-sculpture.glb
-              </button>
-            </li>
-          </ul>
-        </div>
-      )}
       <div
-        className="overflow-y-auto max-h-screen relative top-0 bg-transparent col-span-full text-white flex flex-col"
+        className="overflow-y-auto max-h-screen relative top-0 bg-transparent col-span-full text-white flex flex-col gap-20 snap-y snap-mandatory scroll-smooth"
         onScroll={(e) => {
           setScroll(
             // map scroll from 0 to 1
@@ -336,32 +85,75 @@ export const Controls: React.FC = () => {
         }}
       >
         <section
-          className="min-h-screen p-40 w-1/2 self-start backdrop-blur"
+          className="min-h-svh p-10 self-star flex flex-col justify-between snap-center"
           id="section1"
         >
-          <button
-            onClick={() =>
-              document.getElementById('section2')?.scrollIntoView({
-                behavior: 'smooth',
-              })
-            }
-          >
-            Go next
-          </button>
+          <div className="flex flex-col p-9 w-1/2">
+            <h1 className="typo-zinc text-9xl font-bold font-primary">
+              Discover the Three Graces
+            </h1>
+          </div>
+          <div className="flex flex-col backdrop-blur bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 w-fit max-w-[50%]">
+            <p className="typo-base font-mono text-xl">
+              Welcome to our digital showcase dedicated to the timeless elegance
+              of the Three Graces. Immerse yourself in the beauty of classical
+              sculpture
+            </p>
+          </div>
         </section>
+
         <section
-          className="min-h-screen p-40 w-1/2 self-end backdrop-blur-lg"
+          className="min-h-svh p-10 self-end flex flex-col w-full snap-center justify-between"
           id="section2"
         >
-          <button
-            onClick={() =>
-              document.getElementById('section1')?.scrollIntoView({
-                behavior: 'smooth',
-              })
-            }
-          >
-            dfgdfgdfgdfgdfg
-          </button>
+          <div className="flex flex-col p-9 w-1/2 self-end">
+            <h2 className="typo-zinc text-6xl font-bold font-primary text-right">
+              Experience the Grace
+            </h2>
+          </div>
+          <div className="flex flex-col backdrop-blur self-end bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 max-w-[50%]">
+            <p className="typo-base font-mono text-xl">
+              Explore the exquisite details of the Three Graces from every
+              angle. Zoom in to appreciate the intricacies of their forms and
+              marvel at their enduring charm.
+            </p>
+          </div>
+        </section>
+
+        <section
+          className="min-h-svh p-10 self-center flex flex-col w-full justify-between snap-center"
+          id="section2"
+        >
+          <div className="flex flex-col p-9 w-1/2">
+            <h2 className="typo-zinc text-6xl font-bold font-primary">
+              A Timeless Tribute
+            </h2>
+          </div>
+          <div className="flex flex-col backdrop-blur self-end bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 max-w-[50%]">
+            <p className="typo-base font-mono text-xl">
+              Learn about the history and symbolism behind the Three Graces,
+              celebrated for their embodiment of charm, beauty, and creativity
+              throughout the ages.
+            </p>
+          </div>
+        </section>
+
+        <section
+          className="min-h-svh p-10 self-center flex flex-col w-full justify-between snap-center"
+          id="section2"
+        >
+          <div className="flex flex-col p-9 w-1/2 self-end">
+            <h2 className="typo-zinc text-6xl font-bold font-primary text-right">
+              Bring Grace to Your Space
+            </h2>
+          </div>
+          <div className="flex flex-col backdrop-blur bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 max-w-[50%]">
+            <p className="typo-base font-mono text-xl">
+              Enhance your digital projects or presentations with the elegance
+              of the Three Graces. Contact us to inquire about licensing
+              options.
+            </p>
+          </div>
         </section>
       </div>
       <div className="fixed left-0 top-0 h-full w-full -z-[1]">
