@@ -33,11 +33,11 @@ export function DoorCanvas(
 
   return (
     <Canvas
-      performance={{
-        min: 0.1,
-        max: 1,
-      }}
-      dpr={[1, 2]}
+      // performance={{
+      //   min: 0.1,
+      //   max: 1,
+      // }}
+      dpr={1}
       frameloop="always"
       shadows="basic"
       // className="bg-gradient-to-b from-black via-black via-[80%] to-stone-800"
@@ -58,6 +58,7 @@ export function DoorCanvas(
         // far: 25,
       }}
     >
+      <AdaptiveDpr pixelated />
       {/* <Pathtracer> */}
       <pointLight position={[10, -10, -20]} intensity={10} />
       <pointLight position={[-10, -10, -20]} intensity={10} />
@@ -83,7 +84,6 @@ export function DoorCanvas(
           minAzimuthAngle={-Math.PI / 2}
           maxAzimuthAngle={Math.PI / 2}
         />
-        <AdaptiveDpr pixelated />
       </Suspense>
       {/* </Pathtracer> */}
       {/* <Grid /> */}
