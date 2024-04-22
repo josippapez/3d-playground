@@ -54,52 +54,55 @@ export function Effects() {
     },
   );
 
-  return (
-    <EffectComposer
-      camera={camera}
-      scene={scene}
-      multisampling={2}
-      resolutionScale={1}
-      renderPriority={2}
-      enableNormalPass
-      enabled={enableFX}
-    >
-      {/* <Pixelation granularity={5} /> */}
-      {/* <DepthOfField
+  return useMemo(
+    () => (
+      <EffectComposer
+        camera={camera}
+        scene={scene}
+        multisampling={2}
+        resolutionScale={1}
+        renderPriority={2}
+        enableNormalPass
+        enabled={enableFX}
+      >
+        {/* <Pixelation granularity={5} /> */}
+        {/* <DepthOfField
         focusDistance={0}
         focalLength={0.02}
         bokehScale={2}
         height={480}
       /> */}
-      <SMAA />
-      {/* <Bloom
-        luminanceThreshold={luminanceThreshold}
-        mipmapBlur
-        resolutionScale={1}
-        luminanceSmoothing={luminanceSmoothing}
-        intensity={intensity}
-      /> */}
-      <Noise opacity={0.02} />
-      {enableToneMapping ? (
-        // <ToneMapping
-        //   mainCamera={camera}
-        //   mainScene={scene}
-        //   mode={toneMapping}
-        //   whitePoint={whitePoint}
-        //   maxLuminance={maxLuminance}
-        //   minLuminance={minLuminance}
-        // />
-        <ToneMapping
-          adaptive={true} // toggle adaptive luminance map usage
-          resolution={256} // texture resolution of the luminance map
-          middleGrey={0.6} // middle grey factor
-          maxLuminance={16.0} // maximum luminance
-          averageLuminance={1.0} // average luminance
-          adaptationRate={1.0} // luminance adaptation rate
+        <SMAA />
+        <Bloom
+          luminanceThreshold={luminanceThreshold}
+          mipmapBlur
+          resolutionScale={1}
+          luminanceSmoothing={luminanceSmoothing}
+          intensity={intensity}
         />
-      ) : (
-        <></>
-      )}
-    </EffectComposer>
+        <Noise opacity={0.02} />
+        {enableToneMapping ? (
+          // <ToneMapping
+          //   mainCamera={camera}
+          //   mainScene={scene}
+          //   mode={toneMapping}
+          //   whitePoint={whitePoint}
+          //   maxLuminance={maxLuminance}
+          //   minLuminance={minLuminance}
+          // />
+          <ToneMapping
+            adaptive={true} // toggle adaptive luminance map usage
+            resolution={256} // texture resolution of the luminance map
+            middleGrey={0.6} // middle grey factor
+            maxLuminance={16.0} // maximum luminance
+            averageLuminance={1.0} // average luminance
+            adaptationRate={1.0} // luminance adaptation rate
+          />
+        ) : (
+          <></>
+        )}
+      </EffectComposer>
+    ),
+    [enableFX, enableToneMapping, scene],
   );
 }

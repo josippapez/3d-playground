@@ -3,6 +3,7 @@ import { DoorModel } from '@app/_components/DoorModel';
 import { Effects } from '@app/_components/Effects';
 import { Loader } from '@app/_components/Loader';
 import {
+  AdaptiveDpr,
   CameraControls,
   Environment,
   SoftShadows,
@@ -32,6 +33,12 @@ export function DoorCanvas(
 
   return (
     <Canvas
+      performance={{
+        min: 0.1,
+        max: 1,
+      }}
+      dpr={[1, 2]}
+      frameloop="always"
       shadows="basic"
       // className="bg-gradient-to-b from-black via-black via-[80%] to-stone-800"
       className="bg-stone-950"
@@ -76,6 +83,7 @@ export function DoorCanvas(
           minAzimuthAngle={-Math.PI / 2}
           maxAzimuthAngle={Math.PI / 2}
         />
+        <AdaptiveDpr pixelated />
       </Suspense>
       {/* </Pathtracer> */}
       {/* <Grid /> */}
