@@ -2,7 +2,12 @@
 import { DoorModel } from '@app/_components/DoorModel';
 import { Effects } from '@app/_components/Effects';
 import { Loader } from '@app/_components/Loader';
-import { CameraControls, Environment, SoftShadows, Stats } from '@react-three/drei';
+import {
+  CameraControls,
+  Environment,
+  SoftShadows,
+  Stats,
+} from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useControls } from 'leva';
 import { Suspense } from 'react';

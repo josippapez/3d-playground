@@ -58,27 +58,27 @@ export function Effects() {
     <EffectComposer
       camera={camera}
       scene={scene}
-      multisampling={8}
+      multisampling={2}
       resolutionScale={1}
       renderPriority={2}
       enableNormalPass
       enabled={enableFX}
     >
       {/* <Pixelation granularity={5} /> */}
-      <DepthOfField
+      {/* <DepthOfField
         focusDistance={0}
         focalLength={0.02}
         bokehScale={2}
         height={480}
-      />
+      /> */}
       <SMAA />
-      <Bloom
+      {/* <Bloom
         luminanceThreshold={luminanceThreshold}
         mipmapBlur
         resolutionScale={1}
         luminanceSmoothing={luminanceSmoothing}
         intensity={intensity}
-      />
+      /> */}
       <Noise opacity={0.02} />
       {enableToneMapping ? (
         // <ToneMapping
