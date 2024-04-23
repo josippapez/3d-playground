@@ -1,5 +1,6 @@
 'use client';
 
+import { AnimateSentence } from '@app/_clientComponents/AnimateSentence';
 import { DoorCanvas } from '@app/_components/DoorCanvas';
 import { Effects } from '@app/_components/Effects';
 import { Floor } from '@app/_components/Floor';
@@ -43,7 +44,6 @@ export const useStore = create<{
 
 export const Controls: React.FC = () => {
   const [timeOfDay, setTimeOfDay] = useState<'day' | 'night'>('day');
-  const [selectedModel, setSelectedModel] = useState('graces-draco2.glb');
   const [widthSize, setWidthSize] = useState(1270);
   const [heightSize, setHeightSize] = useState(2700);
   const { enableStats, enableControls } = useControls({
@@ -90,7 +90,11 @@ export const Controls: React.FC = () => {
         >
           <div className="flex flex-col p-9 w-1/2">
             <h1 className="typo-zinc text-9xl font-bold font-primary">
-              Discover the Three Graces
+              <AnimateSentence
+                text="Discover the Three Graces"
+                style="word-by-word"
+                delay={1.5}
+              />
             </h1>
           </div>
           <div className="flex flex-col backdrop-blur bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 w-fit max-w-[50%]">
@@ -162,7 +166,7 @@ export const Controls: React.FC = () => {
           position={[0, 0, 0]}
           widthSize={widthSize}
           heightSize={heightSize}
-          selectedModel={selectedModel}
+          selectedModel={'graces-draco2.glb'}
           timeOfDay={timeOfDay}
           {...modelProps}
         />

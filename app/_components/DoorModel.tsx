@@ -32,7 +32,7 @@ export const DoorModel: React.FC<Props> = ({
   const light = useRef<any>();
   // const scroll = useScroll();
   const { scroll, mousePosition } = useStore();
-  const { nodes, scene, animations, scenes } = useGLTF('/' + selectedModel);
+  const { nodes, scene, animations, scenes } = useGLTF(`/${selectedModel}`);
 
   const { ref, mixer, names, actions, clips } = useAnimations(animations);
 

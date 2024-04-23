@@ -6,11 +6,13 @@ import {
   AdaptiveDpr,
   CameraControls,
   Environment,
+  Html,
   SoftShadows,
   Stats,
 } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useControls } from 'leva';
+import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
 import { Suspense } from 'react';
 
 export function DoorCanvas(
@@ -68,23 +70,31 @@ export function DoorCanvas(
       {/* <Lights timeOfDay={props.timeOfDay} /> */}
       {/* <Environment files={'/studio_garden_1k.hdr'} /> */}
       {/* <Floor /> */}
-      <Suspense fallback={<Loader />}>
-        {/* <ScrollControls pages={3}> */}
-        <DoorModel {...props} position={[0, -2.5, 0]} />
-        {/* </ScrollControls> */}
-        {/* <OrbitControls makeDefault autoRotate={false} /> */}
-        <CameraControls
-          makeDefault
-          // prevents user interaction with the camera (zoom and movement)
-          enabled={false}
-          maxDistance={5}
-          minDistance={5}
-          minPolarAngle={0}
-          maxPolarAngle={Math.PI / 2}
-          minAzimuthAngle={-Math.PI / 2}
-          maxAzimuthAngle={Math.PI / 2}
-        />
-      </Suspense>
+      <ErrorBoundary
+        errorComponent={() => (
+          <Html className="text-white">
+            <h1>Something went wrong</h1>
+          </Html>
+        )}
+      >
+        <Suspense fallback={<Loader />}>
+          {/* <ScrollControls pages={3}> */}
+          <DoorModel {...props} position={[0, -2.5, 0]} />
+          {/* </ScrollControls> */}
+          {/* <OrbitControls makeDefault autoRotate={false} /> */}
+          <CameraControls
+            makeDefault
+            // prevents user interaction with the camera (zoom and movement)
+            enabled={false}
+            maxDistance={5}
+            minDistance={5}
+            minPolarAngle={0}
+            maxPolarAngle={Math.PI / 2}
+            minAzimuthAngle={-Math.PI / 2}
+            maxAzimuthAngle={Math.PI / 2}
+          />
+        </Suspense>
+      </ErrorBoundary>
       {/* </Pathtracer> */}
       {/* <Grid /> */}
       {/* <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
