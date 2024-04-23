@@ -93,7 +93,7 @@ export const Controls: React.FC = () => {
               <AnimateSentence
                 text="Discover the Three Graces"
                 style="word-by-word"
-                delay={1.5}
+                delay={0}
               />
             </h1>
           </div>
@@ -166,7 +166,6 @@ export const Controls: React.FC = () => {
           position={[0, 0, 0]}
           widthSize={widthSize}
           heightSize={heightSize}
-          selectedModel={'graces-draco2.glb'}
           timeOfDay={timeOfDay}
           {...modelProps}
         />

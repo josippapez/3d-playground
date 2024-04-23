@@ -18,7 +18,6 @@ import { Suspense } from 'react';
 export function DoorCanvas(
   props: JSX.IntrinsicElements['group'] & {
     enableStats?: boolean;
-    selectedModel: string;
     timeOfDay: 'day' | 'night';
     zoom?: number;
     widthSize: number;

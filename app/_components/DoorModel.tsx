@@ -1,14 +1,7 @@
 'use client';
 
 import { useStore } from '@app/(index)/Controls';
-import {
-  Html,
-  MeshReflectorMaterial,
-  Stage,
-  useAnimations,
-  useGLTF,
-  useScroll,
-} from '@react-three/drei';
+import { Html, useAnimations, useGLTF } from '@react-three/drei';
 import { HtmlProps } from '@react-three/drei/web/Html';
 import { useFrame } from '@react-three/fiber';
 import { useControls } from 'leva';
@@ -19,20 +12,18 @@ import { Mesh, MeshLambertMaterial } from 'three';
 type Props = {
   widthSize: number;
   heightSize: number;
-  selectedModel: string;
 } & React.JSX.IntrinsicElements['group'];
 
 export const DoorModel: React.FC<Props> = ({
   widthSize,
   heightSize,
-  selectedModel,
   ...props
 }) => {
   const group = useRef<any>();
   const light = useRef<any>();
   // const scroll = useScroll();
   const { scroll, mousePosition } = useStore();
-  const { nodes, scene, animations, scenes } = useGLTF(`/${selectedModel}`);
+  const { nodes, scene, animations, scenes } = useGLTF(`/graces-draco2.glb`);
 
   const { ref, mixer, names, actions, clips } = useAnimations(animations);
 
@@ -44,7 +35,7 @@ export const DoorModel: React.FC<Props> = ({
         value: names[0],
       },
     },
-    [selectedModel, nodes, names, actions],
+    [nodes, names, actions],
   );
 
   useMemo(() => {
@@ -60,11 +51,7 @@ export const DoorModel: React.FC<Props> = ({
           node.material.metalness = 0.9;
         }
 
-        if (
-          node.name === 'Node_3' ||
-          node.name === 'uploads_files_2654970_Asian+Dragon' ||
-          node.name === 'uploads_files_3362108_Horse'
-        ) {
+        if (node.name === 'Node_3') {
           const lambertMaterial = new MeshLambertMaterial({ color: '#404044' });
           node.material = lambertMaterial;
         }
