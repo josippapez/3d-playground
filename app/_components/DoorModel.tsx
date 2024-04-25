@@ -1,7 +1,7 @@
 'use client';
 
 import { useStore } from '@app/(index)/Controls';
-import { Html, useAnimations, useGLTF, useScroll } from '@react-three/drei';
+import { Html, useAnimations, useGLTF } from '@react-three/drei';
 import { HtmlProps } from '@react-three/drei/web/Html';
 import { useFrame } from '@react-three/fiber';
 import { useControls } from 'leva';
@@ -87,11 +87,7 @@ export const DoorModel: React.FC<Props> = ({
       //   1,
       //   delta,
       // );
-      easing.dampE(group.current.rotation, [
-        0,
-        scroll * (Math.PI * 2),
-        0,
-      ]);
+      easing.dampE(group.current.rotation, [0, scroll * (Math.PI * 2), 0]);
     }
     if (light.current) {
       easing.damp3(

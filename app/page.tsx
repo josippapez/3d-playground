@@ -1,6 +1,7 @@
 'use client';
 
 import { Controls } from '@app/(index)/Controls';
+import { Preload } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Leva } from 'leva';
 
@@ -17,7 +18,7 @@ export default function Page() {
         // frameloop="always"
         shadows="basic"
         // className="bg-gradient-to-b from-black via-black via-[80%] to-stone-800"
-        className="bg-stone-950 col-span-full"
+        className="bg-stone-950 col-span-full !select-auto !pointer-events-auto"
         gl={{
           // antialias: true,
           // enable later in production
@@ -35,6 +36,7 @@ export default function Page() {
         }}
       >
         <Controls />
+        <Preload all />
       </Canvas>
     </main>
   );

@@ -6,20 +6,84 @@ import { Effects } from '@app/_components/Effects';
 import { Floor } from '@app/_components/Floor';
 import { Lights } from '@app/_components/Lights';
 import { Loader } from '@app/_components/Loader';
-import { motion } from 'framer-motion';
 import {
   Html,
   KeyboardControls,
   KeyboardControlsEntry,
   useKeyboardControls,
 } from '@react-three/drei';
-import { Canvas, GroupProps, useFrame, useThree } from '@react-three/fiber';
-import clsx from 'clsx';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { motion } from 'framer-motion';
 import { useControls } from 'leva';
-import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
-import { Group, Object3DEventMap, Vector3 } from 'three';
-import { create } from 'zustand';
 import { easing } from 'maath';
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { Group, Object3DEventMap, ShaderMaterial, Vector3 } from 'three';
+import { create } from 'zustand';
+
+// Define the vertex shader with a waving effect
+const vertexShader = `
+  varying vec2 vUv;
+  uniform float time;
+
+  void main() {
+    vUv = uv;
+    vec3 pos = position;
+    pos.y += sin(pos.x + time) * 0.1;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+  }
+`;
+
+// Define the fragment shader with a flowing color effect
+const fragmentShader = `
+  varying vec2 vUv;
+  uniform float time;
+
+  void main() {
+    vec3 orange = vec3(1.0, 0.5, 0.0);
+    vec3 blue = vec3(0.0, 0.0, 1.0);
+    vec3 yellow = vec3(1.0, 1.0, 0.0);
+
+    vec3 color = mix(orange, blue, vUv.y);
+    color = mix(color, yellow, vUv.x);
+
+    gl_FragColor = vec4(color, 1.0);
+  }
+`;
+
+// Create the Background component
+const Background = () => {
+  const materialRef = useRef<ShaderMaterial>(null);
+  const uniforms = useMemo(
+    () => ({
+      time: {
+        value: 0.0,
+      },
+    }),
+    [],
+  );
+
+  useFrame(({ clock }) => {
+    if (materialRef.current) {
+      materialRef.current.uniforms.time.value = clock.getElapsedTime();
+    }
+  });
+
+  return (
+    <mesh position={[0, 0, -20]}>
+      <planeGeometry
+        attach="geometry"
+        args={[window.innerWidth, window.innerHeight]}
+      />
+      <shaderMaterial
+        attach="material"
+        ref={materialRef}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        uniforms={uniforms}
+      />
+    </mesh>
+  );
+};
 
 enum ControlsKeys {
   forward = 'forward',
@@ -106,9 +170,14 @@ export const Controls: React.FC = () => {
 
   return (
     <>
-      <Html fullscreen className="text-white flex flex-col gap-20">
+      {/* <Background /> */}
+      <Html
+        fullscreen
+        transform={false}
+        className="text-white flex flex-col gap-20"
+      >
         <div
-          className="overflow-auto"
+          className="overflow-y-auto overflow-x-hidden z-10"
           onScroll={(e) => {
             setScroll(
               // map scroll from 0 to 1
@@ -118,11 +187,11 @@ export const Controls: React.FC = () => {
           }}
         >
           <section
-            className="min-h-svh p-10 self-star flex flex-col justify-between snap-center"
+            className="min-h-svh p-10 self-star flex flex-col justify-between snap-center max-md:p-5"
             id="section1"
           >
-            <div className="flex flex-col p-9 w-1/2">
-              <h1 className="typo-zinc text-9xl font-bold font-primary">
+            <div className="flex flex-col p-9 w-1/2 max-md:p-0">
+              <h1 className="typo-zinc text-9xl font-bold font-primary max-md:text-6xl">
                 <AnimateSentence
                   text="Discover the Three Graces"
                   style="word-by-word"
@@ -143,7 +212,7 @@ export const Controls: React.FC = () => {
             className="min-h-svh p-10 self-end flex flex-col w-full snap-center justify-between"
             id="section2"
           >
-            <div className="flex flex-col p-9 w-1/2 self-end">
+            <div className="flex flex-col p-9 w-1/2 max-md:p-0 self-end">
               <h2 className="typo-zinc text-6xl font-bold font-primary text-right">
                 Experience the Grace
               </h2>
@@ -161,7 +230,7 @@ export const Controls: React.FC = () => {
             className="min-h-svh p-10 self-center flex flex-col w-full justify-between snap-center"
             id="section2"
           >
-            <div className="flex flex-col p-9 w-1/2">
+            <div className="flex flex-col p-9 w-1/2 max-md:p-0">
               <h2 className="typo-zinc text-6xl font-bold font-primary">
                 A Timeless Tribute
               </h2>
@@ -185,7 +254,7 @@ export const Controls: React.FC = () => {
             onViewportLeave={() => {}}
             // on viewport enter set camera position to the center of the section
           >
-            <div className="flex flex-col p-9 w-1/2 self-end">
+            <div className="flex flex-col p-9 w-1/2 max-md:p-0 self-end">
               <h2 className="typo-zinc text-6xl font-bold font-primary text-right">
                 Bring Grace to Your Space
               </h2>

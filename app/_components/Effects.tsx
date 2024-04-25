@@ -8,6 +8,10 @@ import {
   ToneMapping,
   DepthOfField,
   Pixelation,
+  Glitch,
+  Outline,
+  GodRays,
+  ShockWave,
 } from '@react-three/postprocessing';
 import { useControls } from 'leva';
 // import { ToneMappingMode } from 'postprocessing';
@@ -65,6 +69,7 @@ export function Effects() {
         enableNormalPass
         enabled={enableFX}
       >
+        {/* <GodRays /> */}
         {/* <Pixelation granularity={5} /> */}
         {/* <DepthOfField
         focusDistance={0}
