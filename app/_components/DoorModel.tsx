@@ -1,13 +1,13 @@
 'use client';
 
 import { useStore } from '@app/(index)/Controls';
-import { Html, useAnimations, useGLTF } from '@react-three/drei';
+import { Html, useAnimations, useGLTF, useScroll } from '@react-three/drei';
 import { HtmlProps } from '@react-three/drei/web/Html';
 import { useFrame } from '@react-three/fiber';
 import { useControls } from 'leva';
 import { easing } from 'maath';
 import { useEffect, useMemo, useRef } from 'react';
-import { Mesh, MeshLambertMaterial } from 'three';
+import { Group, Mesh, MeshLambertMaterial, Object3DEventMap } from 'three';
 
 type Props = {
   widthSize: number;
@@ -19,10 +19,11 @@ export const DoorModel: React.FC<Props> = ({
   heightSize,
   ...props
 }) => {
-  const group = useRef<any>();
+  const group = useRef<Group<Object3DEventMap> | null>(null);
   const light = useRef<any>();
-  // const scroll = useScroll();
-  const { scroll, mousePosition } = useStore();
+  const { scroll: scrollEnabled, setModel } = useStore();
+  const scroll = useScroll();
+  const { mousePosition } = useStore();
   const { nodes, scene, animations, scenes } = useGLTF(`/graces-draco2.glb`);
 
   const { ref, mixer, names, actions, clips } = useAnimations(animations);
@@ -37,6 +38,10 @@ export const DoorModel: React.FC<Props> = ({
     },
     [nodes, names, actions],
   );
+
+  useEffect(() => {
+    setModel([group.current]);
+  }, [setModel]);
 
   useMemo(() => {
     Object.values(nodes).forEach((node, index) => {
@@ -82,7 +87,12 @@ export const DoorModel: React.FC<Props> = ({
       //   1,
       //   delta,
       // );
-      easing.damp3(group.current.rotation, [0, scroll * (Math.PI * 2), 0]);
+      if (!scrollEnabled) return;
+      easing.dampE(group.current.rotation, [
+        0,
+        scroll.offset * (Math.PI * 2),
+        0,
+      ]);
     }
     if (light.current) {
       easing.damp3(

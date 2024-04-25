@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import './globals.css';
 import localFont from 'next/font/local';
 import clsx from 'clsx';
+import { Metadata } from 'next';
 
 const LemonRegular = localFont({
   src: [{ path: '../assets/fonts/Lemon-Regular.woff2' }],
@@ -14,6 +15,11 @@ const LemonWide = localFont({
   display: 'swap',
   variable: '--LemonWide',
 });
+
+export const metadata: Metadata = {
+  title: '3d test',
+  description: 'test',
+};
 
 export default async function RootLayout({
   children,

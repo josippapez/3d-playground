@@ -24,41 +24,20 @@ export function DoorCanvas(
     heightSize: number;
   },
 ) {
-  const { debug, enabled, samples, focus, size } = useControls({
-    debug: true,
-    enabled: true,
-    size: { value: 35, min: 0, max: 100, step: 0.1 },
-    focus: { value: 0.5, min: 0, max: 2, step: 0.1 },
-    samples: { value: 5, min: 1, max: 40, step: 1 },
-  });
+  const { debug, enabled, samples, focus, size } = useControls(
+    {
+      debug: true,
+      enabled: true,
+      size: { value: 35, min: 0, max: 100, step: 0.1 },
+      focus: { value: 0.5, min: 0, max: 2, step: 0.1 },
+      samples: { value: 5, min: 1, max: 40, step: 1 },
+    },
+    undefined,
+    { collapsed: true },
+  );
 
   return (
-    <Canvas
-      // performance={{
-      //   min: 0.1,
-      //   max: 1,
-      // }}
-      dpr={1}
-      frameloop="always"
-      shadows="basic"
-      // className="bg-gradient-to-b from-black via-black via-[80%] to-stone-800"
-      className="bg-stone-950"
-      gl={{
-        // antialias: true,
-        // enable later in production
-        antialias: false,
-        stencil: false,
-        depth: false,
-        powerPreference: 'high-performance',
-      }}
-      camera={{
-        type: 'OrthographicCamera',
-        zoom: 1.3,
-        // position: [0.5, 1, 10],
-        // near: 1,
-        // far: 25,
-      }}
-    >
+    <>
       <AdaptiveDpr pixelated />
       {/* <Pathtracer> */}
       <pointLight position={[10, -10, -20]} intensity={10} />
@@ -104,6 +83,6 @@ export function DoorCanvas(
       </GizmoHelper> */}
       {/* <axesHelper args={[3]} /> */}
       {props.enableStats && <Stats />}
-    </Canvas>
+    </>
   );
 }

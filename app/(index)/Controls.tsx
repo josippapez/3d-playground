@@ -6,17 +6,20 @@ import { Effects } from '@app/_components/Effects';
 import { Floor } from '@app/_components/Floor';
 import { Lights } from '@app/_components/Lights';
 import { Loader } from '@app/_components/Loader';
+import { motion } from 'framer-motion';
 import {
+  Html,
   KeyboardControls,
   KeyboardControlsEntry,
   useKeyboardControls,
 } from '@react-three/drei';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Canvas, GroupProps, useFrame, useThree } from '@react-three/fiber';
 import clsx from 'clsx';
 import { useControls } from 'leva';
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
-import { Vector3 } from 'three';
+import { Group, Object3DEventMap, Vector3 } from 'three';
 import { create } from 'zustand';
+import { easing } from 'maath';
 
 enum ControlsKeys {
   forward = 'forward',
@@ -27,12 +30,14 @@ enum ControlsKeys {
 }
 
 export const useStore = create<{
-  scroll: number;
+  scroll: boolean;
   mousePosition: { x: number; y: number };
-  setScroll: (scroll: number) => void;
+  setScroll: (scroll: boolean) => void;
   setMousePosition: (x: number, y: number) => void;
+  model: (Group<Object3DEventMap> | null)[];
+  setModel: (model: (Group<Object3DEventMap> | null)[]) => void;
 }>((set) => ({
-  scroll: 0,
+  scroll: true,
   mousePosition: { x: 0, y: 0 },
   setScroll: (scroll) => set({ scroll }),
   setMousePosition: (x, y) => {
@@ -40,18 +45,45 @@ export const useStore = create<{
       mousePosition: { x, y },
     });
   },
+  model: [],
+  setModel: (model: (Group<Object3DEventMap> | null)[]) => {
+    set({
+      model,
+    });
+  },
 }));
 
+const useModelRotation = (rotation: [number, number, number]) => {
+  const [triggerRotation, setTriggerRotation] = useState(false);
+  const { model } = useStore();
+  useFrame(() => {
+    if (!model[0] || !triggerRotation) return;
+    easing.dampE(model[0].rotation, rotation);
+  });
+
+  return {
+    triggerRotation,
+    setTriggerRotation,
+  };
+};
+
 export const Controls: React.FC = () => {
+  const { triggerRotation, setTriggerRotation } = useModelRotation([0, 0, 0]);
   const [timeOfDay, setTimeOfDay] = useState<'day' | 'night'>('day');
   const [widthSize, setWidthSize] = useState(1270);
   const [heightSize, setHeightSize] = useState(2700);
-  const { enableStats, enableControls } = useControls({
-    enableStats: false,
-    enableControls: false,
-  });
+  const { enableStats, enableControls } = useControls(
+    {
+      enableStats: false,
+      enableControls: false,
+    },
+    undefined,
+    {
+      collapsed: true,
+    },
+  );
 
-  const { setScroll, setMousePosition } = useStore();
+  const { setScroll, setMousePosition, model } = useStore();
   useEffect(() => {
     // add mouse event listener that uses x an y position of the mouse on screen and maps them so that the 0 point is in the center of the screen. Also mapped to 0-1
     const handleMouseMove = (e: MouseEvent) => {
@@ -74,104 +106,109 @@ export const Controls: React.FC = () => {
 
   return (
     <>
-      <div
-        className="overflow-y-auto max-h-screen relative top-0 bg-transparent col-span-full text-white flex flex-col gap-20 snap-y snap-mandatory scroll-smooth"
-        onScroll={(e) => {
-          setScroll(
-            // map scroll from 0 to 1
-            e.currentTarget.scrollTop /
-              (e.currentTarget.scrollHeight - e.currentTarget.clientHeight),
-          );
+      <Html
+        style={{
+          position: 'unset',
         }}
+        wrapperClass="!transform-none w-full"
+        className="text-white flex flex-col gap-20"
       >
-        <section
-          className="min-h-svh p-10 self-star flex flex-col justify-between snap-center"
-          id="section1"
-        >
-          <div className="flex flex-col p-9 w-1/2">
-            <h1 className="typo-zinc text-9xl font-bold font-primary">
-              <AnimateSentence
-                text="Discover the Three Graces"
-                style="word-by-word"
-                delay={0}
-              />
-            </h1>
-          </div>
-          <div className="flex flex-col backdrop-blur bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 w-fit max-w-[50%]">
-            <p className="typo-base font-mono text-xl">
-              Welcome to our digital showcase dedicated to the timeless elegance
-              of the Three Graces. Immerse yourself in the beauty of classical
-              sculpture
-            </p>
-          </div>
-        </section>
+        <div>
+          <section
+            className="min-h-svh p-10 self-star flex flex-col justify-between snap-center"
+            id="section1"
+          >
+            <div className="flex flex-col p-9 w-1/2">
+              <h1 className="typo-zinc text-9xl font-bold font-primary">
+                <AnimateSentence
+                  text="Discover the Three Graces"
+                  style="word-by-word"
+                  delay={0}
+                />
+              </h1>
+            </div>
+            <div className="flex flex-col backdrop-blur bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 w-fit max-w-[50%]">
+              <p className="typo-base font-mono text-xl">
+                Welcome to our digital showcase dedicated to the timeless
+                elegance of the Three Graces. Immerse yourself in the beauty of
+                classical sculpture
+              </p>
+            </div>
+          </section>
 
-        <section
-          className="min-h-svh p-10 self-end flex flex-col w-full snap-center justify-between"
-          id="section2"
-        >
-          <div className="flex flex-col p-9 w-1/2 self-end">
-            <h2 className="typo-zinc text-6xl font-bold font-primary text-right">
-              Experience the Grace
-            </h2>
-          </div>
-          <div className="flex flex-col backdrop-blur self-end bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 max-w-[50%]">
-            <p className="typo-base font-mono text-xl">
-              Explore the exquisite details of the Three Graces from every
-              angle. Zoom in to appreciate the intricacies of their forms and
-              marvel at their enduring charm.
-            </p>
-          </div>
-        </section>
+          <section
+            className="min-h-svh p-10 self-end flex flex-col w-full snap-center justify-between"
+            id="section2"
+          >
+            <div className="flex flex-col p-9 w-1/2 self-end">
+              <h2 className="typo-zinc text-6xl font-bold font-primary text-right">
+                Experience the Grace
+              </h2>
+            </div>
+            <div className="flex flex-col backdrop-blur self-end bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 max-w-[50%]">
+              <p className="typo-base font-mono text-xl">
+                Explore the exquisite details of the Three Graces from every
+                angle. Zoom in to appreciate the intricacies of their forms and
+                marvel at their enduring charm.
+              </p>
+            </div>
+          </section>
 
-        <section
-          className="min-h-svh p-10 self-center flex flex-col w-full justify-between snap-center"
-          id="section2"
-        >
-          <div className="flex flex-col p-9 w-1/2">
-            <h2 className="typo-zinc text-6xl font-bold font-primary">
-              A Timeless Tribute
-            </h2>
-          </div>
-          <div className="flex flex-col backdrop-blur self-end bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 max-w-[50%]">
-            <p className="typo-base font-mono text-xl">
-              Learn about the history and symbolism behind the Three Graces,
-              celebrated for their embodiment of charm, beauty, and creativity
-              throughout the ages.
-            </p>
-          </div>
-        </section>
+          <section
+            className="min-h-svh p-10 self-center flex flex-col w-full justify-between snap-center"
+            id="section2"
+          >
+            <div className="flex flex-col p-9 w-1/2">
+              <h2 className="typo-zinc text-6xl font-bold font-primary">
+                A Timeless Tribute
+              </h2>
+            </div>
+            <div className="flex flex-col backdrop-blur self-end bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 max-w-[50%]">
+              <p className="typo-base font-mono text-xl">
+                Learn about the history and symbolism behind the Three Graces,
+                celebrated for their embodiment of charm, beauty, and creativity
+                throughout the ages.
+              </p>
+            </div>
+          </section>
 
-        <section
-          className="min-h-svh p-10 self-center flex flex-col w-full justify-between snap-center"
-          id="section2"
-        >
-          <div className="flex flex-col p-9 w-1/2 self-end">
-            <h2 className="typo-zinc text-6xl font-bold font-primary text-right">
-              Bring Grace to Your Space
-            </h2>
-          </div>
-          <div className="flex flex-col backdrop-blur bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 max-w-[50%]">
-            <p className="typo-base font-mono text-xl">
-              Enhance your digital projects or presentations with the elegance
-              of the Three Graces. Contact us to inquire about licensing
-              options.
-            </p>
-          </div>
-        </section>
-      </div>
-      <div className="fixed left-0 top-0 h-full w-full -z-[1]">
-        <DoorCanvas
-          enableStats={enableStats}
-          position={[0, 0, 0]}
-          widthSize={widthSize}
-          heightSize={heightSize}
-          timeOfDay={timeOfDay}
-          {...modelProps}
-        />
+          <motion.section
+            className="min-h-svh p-10 self-center flex flex-col w-full justify-between snap-center"
+            id="section2"
+            viewport={{
+              amount: 'all',
+            }}
+            onViewportEnter={() => {}}
+            onViewportLeave={() => {}}
+            // on viewport enter set camera position to the center of the section
+          >
+            <div className="flex flex-col p-9 w-1/2 self-end">
+              <h2 className="typo-zinc text-6xl font-bold font-primary text-right">
+                Bring Grace to Your Space
+              </h2>
+            </div>
+            <div className="flex flex-col backdrop-blur bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 max-w-[50%]">
+              <p className="typo-base font-mono text-xl">
+                Enhance your digital projects or presentations with the elegance
+                of the Three Graces. Contact us to inquire about licensing
+                options.
+              </p>
+            </div>
+          </motion.section>
+        </div>
+      </Html>
+      {/* <div className="fixed left-0 top-0 h-full w-full -z-[1]"> */}
+      <DoorCanvas
+        enableStats={enableStats}
+        position={[0, 0, 0]}
+        widthSize={widthSize}
+        heightSize={heightSize}
+        timeOfDay={timeOfDay}
+        {...modelProps}
+      />
 
-        {/* <GameCanvas timeOfDay={timeOfDay} /> */}
-      </div>
+      {/* <GameCanvas timeOfDay={timeOfDay} /> */}
+      {/* </div> */}
     </>
   );
 };
