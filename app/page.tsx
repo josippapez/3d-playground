@@ -1,7 +1,6 @@
 'use client';
 
 import { Controls } from '@app/(index)/Controls';
-import { ScrollControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Leva } from 'leva';
 
@@ -35,9 +34,7 @@ export default function Page() {
           // far: 25,
         }}
       >
-        <ScrollControls pages={3}>
-          <Controls />
-        </ScrollControls>
+        <Controls />
       </Canvas>
     </main>
   );

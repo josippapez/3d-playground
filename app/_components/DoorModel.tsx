@@ -21,8 +21,8 @@ export const DoorModel: React.FC<Props> = ({
 }) => {
   const group = useRef<Group<Object3DEventMap> | null>(null);
   const light = useRef<any>();
-  const { scroll: scrollEnabled, setModel } = useStore();
-  const scroll = useScroll();
+  const { scroll, setModel } = useStore();
+  // const scroll = useScroll();
   const { mousePosition } = useStore();
   const { nodes, scene, animations, scenes } = useGLTF(`/graces-draco2.glb`);
 
@@ -87,10 +87,9 @@ export const DoorModel: React.FC<Props> = ({
       //   1,
       //   delta,
       // );
-      if (!scrollEnabled) return;
       easing.dampE(group.current.rotation, [
         0,
-        scroll.offset * (Math.PI * 2),
+        scroll * (Math.PI * 2),
         0,
       ]);
     }

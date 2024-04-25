@@ -30,14 +30,14 @@ enum ControlsKeys {
 }
 
 export const useStore = create<{
-  scroll: boolean;
+  scroll: number;
   mousePosition: { x: number; y: number };
-  setScroll: (scroll: boolean) => void;
+  setScroll: (scroll: number) => void;
   setMousePosition: (x: number, y: number) => void;
   model: (Group<Object3DEventMap> | null)[];
   setModel: (model: (Group<Object3DEventMap> | null)[]) => void;
 }>((set) => ({
-  scroll: true,
+  scroll: 0,
   mousePosition: { x: 0, y: 0 },
   setScroll: (scroll) => set({ scroll }),
   setMousePosition: (x, y) => {
@@ -99,21 +99,24 @@ export const Controls: React.FC = () => {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [setMousePosition]);
+  }, []);
 
   const [modelProps, setModelProps] =
     useState<JSX.IntrinsicElements['group']>();
 
   return (
     <>
-      <Html
-        style={{
-          position: 'unset',
-        }}
-        wrapperClass="!transform-none w-full"
-        className="text-white flex flex-col gap-20"
-      >
-        <div>
+      <Html fullscreen className="text-white flex flex-col gap-20">
+        <div
+          className="overflow-auto"
+          onScroll={(e) => {
+            setScroll(
+              // map scroll from 0 to 1
+              e.currentTarget.scrollTop /
+                (e.currentTarget.scrollHeight - e.currentTarget.clientHeight),
+            );
+          }}
+        >
           <section
             className="min-h-svh p-10 self-star flex flex-col justify-between snap-center"
             id="section1"
