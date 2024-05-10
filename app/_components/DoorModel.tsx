@@ -1,13 +1,12 @@
 'use client';
 
 import { useStore } from '@app/(index)/Controls';
-import { Html, useAnimations, useGLTF } from '@react-three/drei';
+import { Html, RoundedBox } from '@react-three/drei';
 import { HtmlProps } from '@react-three/drei/web/Html';
 import { useFrame } from '@react-three/fiber';
-import { useControls } from 'leva';
 import { easing } from 'maath';
-import { useEffect, useMemo, useRef } from 'react';
-import { Group, Mesh, MeshLambertMaterial, Object3DEventMap } from 'three';
+import { useEffect, useRef, useState } from 'react';
+import { Group, Object3DEventMap } from 'three';
 
 type Props = {
   widthSize: number;
@@ -20,82 +19,57 @@ export const DoorModel: React.FC<Props> = ({
   ...props
 }) => {
   const group = useRef<Group<Object3DEventMap> | null>(null);
-  const light = useRef<any>();
-  const { scroll, setModel } = useStore();
+  const roundedBox = useRef<any>();
+
+  const [hovered, setHovered] = useState(false);
+
   // const scroll = useScroll();
+  const { scroll, setModel } = useStore();
   const { mousePosition } = useStore();
-  const { nodes, scene, animations, scenes } = useGLTF(`/graces-draco2.glb`);
-
-  const { ref, mixer, names, actions, clips } = useAnimations(animations);
-
-  const { animationName } = useControls(
-    'Animation',
-    {
-      animationName: {
-        options: names,
-        value: names[0],
-      },
-    },
-    [nodes, names, actions],
-  );
+  // const { nodes, scene, animations, scenes } = useGLTF(`/graces-draco2.glb`);
+  // const { ref, mixer, names, actions, clips } = useAnimations(animations);
+  // const { animationName } = useControls(
+  //   'Animation',
+  //   {
+  //     animationName: {
+  //       options: names,
+  //       value: names[0],
+  //     },
+  //   },
+  //   [nodes, names, actions],
+  // );
 
   useEffect(() => {
     setModel([group.current]);
   }, [setModel]);
 
-  useMemo(() => {
-    Object.values(nodes).forEach((node, index) => {
-      if (node instanceof Mesh) {
-        node.castShadow = true;
-        node.receiveShadow = true;
-        // node.material.envMapIntensity = 0.8;
-        // this is needed because ambient light is not working materials with metalness set to 1
-        // That's because metalness pratically reflects light and becomes darker (or in other words
-        // the perfect metal doesn't exist in real life)
-        if (node.material.metalness === 1) {
-          node.material.metalness = 0.9;
-        }
-
-        if (node.name === 'Node_3') {
-          const lambertMaterial = new MeshLambertMaterial({ color: '#404044' });
-          node.material = lambertMaterial;
-        }
-      }
-    });
-  }, [nodes]);
-
-  useEffect(() => {
-    // Reset and fade in animation after an index has been changed
-    actions[animationName]?.reset().fadeIn(0.5).play();
-    // In the clean-up phase, fade it out
-    return () => {
-      actions[animationName]?.fadeOut(0.5);
-    };
-  }, [animationName, actions, names]);
-
   useFrame((state, delta) => {
-    if (group.current) {
-      // easing.dampE(
-      //   group.current.rotation,
-      //   [0, -state.pointer.x * (Math.PI / 10), 0],
-      //   1.5,
-      //   delta,
-      // );
-      // easing.damp3(
-      //   group.current.position,
-      //   [0, -2.5, 1 - Math.abs(state.pointer.x)],
-      //   1,
-      //   delta,
-      // );
-      easing.dampE(group.current.rotation, [0, scroll * (Math.PI * 2), 0]);
-    }
-    if (light.current) {
-      easing.damp3(
-        light.current.position,
-        [mousePosition.x * 12, mousePosition.y * 4, 5],
-        0.2,
-        delta,
-      );
+    // if (group.current) {
+    //   // easing.dampE(
+    //   //   group.current.rotation,
+    //   //   [0, -state.pointer.x * (Math.PI / 10), 0],
+    //   //   1.5,
+    //   //   delta,
+    //   // );
+    //   // easing.damp3(
+    //   //   group.current.position,
+    //   //   [0, -2.5, 1 - Math.abs(state.pointer.x)],
+    //   //   1,
+    //   //   delta,
+    //   // );
+    //   easing.dampE(group.current.rotation, [0, scroll * (Math.PI * 2), 0]);
+    // }
+
+    const isHovered = state.raycaster.intersectObject(
+      roundedBox.current,
+    ).length;
+
+    if (isHovered) {
+      easing.damp3(roundedBox.current.position, [0, 1, 0], 0.2, delta);
+      easing.dampC(roundedBox.current.material.color, 'purple', 0.2, delta);
+    } else {
+      easing.damp3(roundedBox.current.position, [0, 0, 0], 0.2, delta);
+      easing.dampC(roundedBox.current.material.color, 'gray', 0.2, delta);
     }
   });
 
@@ -110,7 +84,25 @@ export const DoorModel: React.FC<Props> = ({
     // >
     <group>
       <group {...props} ref={group}>
-        <primitive object={scene} />
+        {/* <primitive object={scene} /> */}
+        <mesh>
+          <RoundedBox
+            args={[3, 3, 3]}
+            radius={0.4}
+            ref={roundedBox}
+            onPointerOver={(e) => setHovered(true)}
+            onPointerLeave={(e) => setHovered(false)}
+          >
+            {/* <meshLambertMaterial attach="material" color={'gray'} /> */}
+            <meshStandardMaterial
+              depthTest={true}
+              depthWrite={true}
+              metalness={0.9}
+              roughness={0.5}
+              color={'gray'}
+            />
+          </RoundedBox>
+        </mesh>
         {/* <Annotation position={[1.75, 3, 2.5]}>
           Click <span style={{ fontSize: '1.5em' }}>🌗</span>
         </Annotation> */}
@@ -130,21 +122,6 @@ export const DoorModel: React.FC<Props> = ({
           roughness={1}
         />
       </mesh> */}
-      <spotLight
-        angle={0.5}
-        penumbra={0.5}
-        ref={light}
-        castShadow
-        intensity={150}
-        shadow-mapSize={1024}
-        shadow-bias={-0.001}
-        position={[0, 0, 5]}
-      >
-        <orthographicCamera
-          attach="shadow-camera"
-          args={[-10, 10, -10, 10, 0.1, 50]}
-        />
-      </spotLight>
     </group>
     // </Stage>
   );

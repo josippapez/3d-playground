@@ -2146,10 +2146,10 @@
   resolved "https://registry.yarnpkg.com/@react-spring/types/-/types-9.6.1.tgz#913d3a68c5cbc1124fdb18eff919432f7b6abdde"
   integrity sha512-POu8Mk0hIU3lRXB3bGIGe4VHIwwDsQyoD1F394OK7STTiX9w4dG3cTLljjYswkQN+hDSHRrj4O36kuVa7KPU8Q==
 
-"@react-three/drei@^9.105.4":
-  version "9.105.4"
-  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.105.4.tgz#7c692a6be286b8c4940646d44372b205f2ef4ac7"
-  integrity sha512-pBZQmaV4yuBXP/TMcWJc5RNm3v9CykOqQDg2tyjZHijV4aa8jf38ae7WyQa5zDjuZcrHlQd2IGMX0Ia2UTHEUA==
+"@react-three/drei@^9.105.6":
+  version "9.105.6"
+  resolved "https://registry.yarnpkg.com/@react-three/drei/-/drei-9.105.6.tgz#62a576149d179a02a3aaf5f9d962bcf9e1540eb2"
+  integrity sha512-JBgYeV36N9N9f1c3o1ZfLYW4rXZA7UQTq32Y8s3DEF6lwj1/y+RP/yq2VG5I8OzUPl7gsmWdy8fpWZgrlAqUpQ==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@mediapipe/tasks-vision" "0.10.8"
@@ -2168,7 +2168,7 @@
     stats.js "^0.17.0"
     suspend-react "^0.1.3"
     three-mesh-bvh "^0.7.0"
-    three-stdlib "^2.29.4"
+    three-stdlib "^2.29.9"
     troika-three-text "^0.49.0"
     tunnel-rat "^0.1.2"
     utility-types "^3.10.0"
@@ -2176,9 +2176,9 @@
     zustand "^3.7.1"
 
 "@react-three/fiber@^8.16.2":
-  version "8.16.2"
-  resolved "https://registry.yarnpkg.com/@react-three/fiber/-/fiber-8.16.2.tgz#0911db572b39d4986b645a709fd5af63eab81482"
-  integrity sha512-3Z5FW8mxzomBbrw2iF0lNOAlNBr2OK6HR0NM416PzcTs0UcSoPj/nD4eqmrV5Kut6kvCc/TJua5LyeoPE7vSmw==
+  version "8.16.5"
+  resolved "https://registry.yarnpkg.com/@react-three/fiber/-/fiber-8.16.5.tgz#43a6463d981166f9a5efd07047f87836be481ea1"
+  integrity sha512-ALRkdZj57mxgbvTHcSmepslgeWM0FXBMyII6l3gDodKhCLp3KRPXVOXKMo4jh7VhwTdYtEZeidkldYZtLSgnCw==
   dependencies:
     "@babel/runtime" "^7.17.8"
     "@types/react-reconciler" "^0.26.7"
@@ -3652,10 +3652,10 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.4.tgz#cd667bcfdd025213aafb7ca5915a932590acdcdc"
   integrity sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==
 
-"@types/react-dom@18.2.25":
-  version "18.2.25"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.2.25.tgz#2946a30081f53e7c8d585eb138277245caedc521"
-  integrity sha512-o/V48vf4MQh7juIKZU2QGDfli6p1+OOi5oXx36Hffpc9adsHeXjVp8rHuPkjd8VT8sOJ2Zp05HR7CdpGTIUFUA==
+"@types/react-dom@18.3.0":
+  version "18.3.0"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.3.0.tgz#0cbc818755d87066ab6ca74fbedb2547d74a82b0"
+  integrity sha512-EhwApuTmMBmXuFOikhQLIBUn6uFg81SwLMOAUgodJF14SOBOCMdU04gDoYi0WOJJHD144TL32z4yDqCW3dnkQg==
   dependencies:
     "@types/react" "*"
 
@@ -3689,10 +3689,10 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@18.2.79":
-  version "18.2.79"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.79.tgz#c40efb4f255711f554d47b449f796d1c7756d865"
-  integrity sha512-RwGAGXPl9kSXwdNTafkOEuFrTBD5SA2B3iEB96xi8+xu5ddUa/cpvyVCSNn+asgLCTHkb5ZxN8gbuibYJi4s1w==
+"@types/react@18.3.1":
+  version "18.3.1"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.3.1.tgz#fed43985caa834a2084d002e4771e15dfcbdbe8e"
+  integrity sha512-V0kuGBX3+prX+DQ/7r2qsv1NsdfnCLnTgnRJ1pYnxykBhGMz+qj+box5lq7XsO5mtZsBqpjwwTu/7wszPfMBcw==
   dependencies:
     "@types/prop-types" "*"
     csstype "^3.0.2"
@@ -6507,12 +6507,12 @@ fraction.js@^4.3.7:
   resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.3.7.tgz#06ca0085157e42fda7f9e726e79fefc4068840f7"
   integrity sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==
 
-framer-motion-3d@^11.1.7:
-  version "11.1.7"
-  resolved "https://registry.yarnpkg.com/framer-motion-3d/-/framer-motion-3d-11.1.7.tgz#c40e628c7332ef394c64def652ae1ede62d3138c"
-  integrity sha512-14UiHr0qqKNWtIZ6Ak8WSW4sAo0kMmArIH3sJTsnW1nd3AIr2tlLm2zDFqBBXyib+wjAc8JHbSo7HuKdvj3W3w==
+framer-motion-3d@^11.1.9:
+  version "11.1.9"
+  resolved "https://registry.yarnpkg.com/framer-motion-3d/-/framer-motion-3d-11.1.9.tgz#b77ee98be84b71814e53c37de63602f4f2f7eb79"
+  integrity sha512-GCpUHAIVMKVhxq+MjDjnAI76ECH9SeWGjtx9081DsVsFcgKsOKoFEgqAyhez8MPMdQUOmpXwXC7DcG+tTkC3vg==
   dependencies:
-    framer-motion "^11.1.7"
+    framer-motion "^11.1.9"
     react-merge-refs "^2.0.1"
 
 framer-motion@^10.16.4:
@@ -6524,10 +6524,10 @@ framer-motion@^10.16.4:
   optionalDependencies:
     "@emotion/is-prop-valid" "^0.8.2"
 
-framer-motion@^11.1.7:
-  version "11.1.7"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-11.1.7.tgz#ad970c1296e7b5fb26db222fd65d1329aef115a6"
-  integrity sha512-cW11Pu53eDAXUEhv5hEiWuIXWhfkbV32PlgVISn7jRdcAiVrJ1S03YQQ0/DzoswGYYwKi4qYmHHjCzAH52eSdQ==
+framer-motion@^11.1.9:
+  version "11.1.9"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-11.1.9.tgz#1ef021fc35615eb83d6baa903a47ba872be99187"
+  integrity sha512-flECDIPV4QDNcOrDafVFiIazp8X01HFpzc01eDKJsdNH/wrATcYydJSH9JbPWMS8UD5lZlw+J1sK8LG2kICgqw==
   dependencies:
     tslib "^2.4.0"
 
@@ -9132,13 +9132,13 @@ react-docgen@^5.0.0:
     node-dir "^0.1.10"
     strip-indent "^3.0.0"
 
-react-dom@^18.2.0:
-  version "18.2.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
-  integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
+react-dom@^18.3.1:
+  version "18.3.1"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.3.1.tgz#c2265d79511b57d479b3dd3fdfa51536494c5cb4"
+  integrity sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==
   dependencies:
     loose-envify "^1.1.0"
-    scheduler "^0.23.0"
+    scheduler "^0.23.2"
 
 react-dropzone@^12.0.0:
   version "12.1.0"
@@ -9238,10 +9238,10 @@ react-use-measure@^2.1.1:
   dependencies:
     debounce "^1.2.1"
 
-react@^18.2.0:
-  version "18.2.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
-  integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
+react@^18.3.1:
+  version "18.3.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-18.3.1.tgz#49ab892009c53933625bd16b2533fc754cab2891"
+  integrity sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==
   dependencies:
     loose-envify "^1.1.0"
 
@@ -9606,10 +9606,10 @@ scheduler@^0.21.0:
   dependencies:
     loose-envify "^1.1.0"
 
-scheduler@^0.23.0:
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.23.0.tgz#ba8041afc3d30eb206a487b6b384002e4e61fdfe"
-  integrity sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==
+scheduler@^0.23.2:
+  version "0.23.2"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.23.2.tgz#414ba64a3b282892e944cf2108ecc078d115cdc3"
+  integrity sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ==
   dependencies:
     loose-envify "^1.1.0"
 
@@ -10324,10 +10324,10 @@ three-stdlib@^2.23.4:
     potpack "^1.0.1"
     zstddec "^0.0.2"
 
-three-stdlib@^2.29.4:
-  version "2.29.5"
-  resolved "https://registry.yarnpkg.com/three-stdlib/-/three-stdlib-2.29.5.tgz#94e8d15c1b6ffe548908718f3a885e62d045032d"
-  integrity sha512-p9IQsH7gT9wVqAuMsimX2JTtEoCGHlwgm3HsAeXwWqP/PWV9DjYldbggLCr0B1TMzofi/58GG1X5KTQnG6ijpw==
+three-stdlib@^2.29.9:
+  version "2.29.11"
+  resolved "https://registry.yarnpkg.com/three-stdlib/-/three-stdlib-2.29.11.tgz#9bec17887464e8f4fe36d41e879655b16411c686"
+  integrity sha512-vSyUavKCwOJQd2ch9IHhyJVx6eNG3y+z3/LulqHM7OLMy81OqnmIrvc2b4phKr/c1aVjHRNG2X7JOklfrDDcmQ==
   dependencies:
     "@types/draco3d" "^1.4.0"
     "@types/offscreencanvas" "^2019.6.4"

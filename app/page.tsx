@@ -1,7 +1,7 @@
 'use client';
 
 import { Controls } from '@app/(index)/Controls';
-import { Preload } from '@react-three/drei';
+import { Bvh, CameraControls, Preload } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Leva } from 'leva';
 
@@ -23,18 +23,27 @@ export default function Page() {
           // antialias: true,
           // enable later in production
           antialias: false,
-          stencil: false,
-          depth: false,
+          // stencil: false,
+          // depth: false,
           powerPreference: 'high-performance',
         }}
         camera={{
           type: 'OrthographicCamera',
-          zoom: 1.3,
-          // position: [0.5, 1, 10],
-          // near: 1,
-          // far: 25,
+          zoom: 1,
+          position: [0, 10, 0],
         }}
       >
+        <CameraControls
+          makeDefault
+          // prevents user interaction with the camera (zoom and movement)
+          enabled={false}
+          maxDistance={5}
+          minDistance={5}
+          minPolarAngle={0}
+          maxPolarAngle={Math.PI / 2}
+          minAzimuthAngle={-Math.PI / 2}
+          maxAzimuthAngle={Math.PI / 2}
+        />
         <Controls />
         <Preload all />
       </Canvas>

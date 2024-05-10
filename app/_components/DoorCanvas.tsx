@@ -1,19 +1,15 @@
 'use client';
+import { useStore } from '@app/(index)/Controls';
 import { DoorModel } from '@app/_components/DoorModel';
 import { Effects } from '@app/_components/Effects';
+import { Lights } from '@app/_components/Lights';
 import { Loader } from '@app/_components/Loader';
-import {
-  AdaptiveDpr,
-  CameraControls,
-  Environment,
-  Html,
-  SoftShadows,
-  Stats,
-} from '@react-three/drei';
-import { Canvas } from '@react-three/fiber';
+import { AdaptiveDpr, Html, SoftShadows, Stats } from '@react-three/drei';
+import { useFrame, useThree } from '@react-three/fiber';
 import { useControls } from 'leva';
+import { easing } from 'maath';
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
-import { Suspense } from 'react';
+import { Suspense, useRef } from 'react';
 
 export function DoorCanvas(
   props: JSX.IntrinsicElements['group'] & {
@@ -24,6 +20,10 @@ export function DoorCanvas(
     heightSize: number;
   },
 ) {
+  const light = useRef<any>();
+
+  const { camera } = useThree();
+  const { mousePosition } = useStore();
   const { debug, enabled, samples, focus, size } = useControls(
     {
       debug: true,
@@ -36,12 +36,28 @@ export function DoorCanvas(
     { collapsed: true },
   );
 
+  useFrame((state, delta) => {
+    if (light.current) {
+      easing.damp3(
+        light.current.position,
+        [
+          camera.position.x + mousePosition.x * 12,
+          camera.position.y + mousePosition.y * 4,
+          camera.position.z + 5,
+        ],
+        0.2,
+        delta,
+      );
+      light.current.updateMatrixWorld();
+    }
+  });
+
   return (
     <>
       <AdaptiveDpr pixelated />
       {/* <Pathtracer> */}
-      <pointLight position={[10, -10, -20]} intensity={10} />
-      <pointLight position={[-10, -10, -20]} intensity={10} />
+      {/* <pointLight position={[10, -10, -20]} intensity={10} />
+      <pointLight position={[-10, -10, -20]} intensity={10} /> */}
       {enabled && <SoftShadows samples={samples} />}
       <Effects />
       {/* <Skybox timeOfDay={props.timeOfDay} /> */}
@@ -57,20 +73,40 @@ export function DoorCanvas(
       >
         <Suspense fallback={<Loader />}>
           {/* <ScrollControls pages={3}> */}
-          <DoorModel {...props} position={[0, -2.5, 0]} />
+          <group position={[-10, 0, 0]} rotation={[Math.PI / -6, 0, 0]}>
+            {/* GRID of rounded boxes */}
+            <group>
+              {Array.from({ length: 60 }).map((_, index) => (
+                <DoorModel
+                  key={index}
+                  {...props}
+                  position={[
+                    Math.floor(index / 5) * 3 - 6,
+                    0,
+                    (index % 5) * 3 - 6,
+                  ]}
+                />
+              ))}
+            </group>
+            {/* <DoorModel {...props} position={[0, -2.5, 0]} /> */}
+          </group>
           {/* </ScrollControls> */}
           {/* <OrbitControls makeDefault autoRotate={false} /> */}
-          <CameraControls
-            makeDefault
-            // prevents user interaction with the camera (zoom and movement)
-            enabled={false}
-            maxDistance={5}
-            minDistance={5}
-            minPolarAngle={0}
-            maxPolarAngle={Math.PI / 2}
-            minAzimuthAngle={-Math.PI / 2}
-            maxAzimuthAngle={Math.PI / 2}
-          />
+          <spotLight
+            angle={0.5}
+            penumbra={0.5}
+            ref={light}
+            castShadow
+            intensity={300}
+            shadow-mapSize={1024}
+            shadow-bias={-0.001}
+            position={camera.position}
+          >
+            <orthographicCamera
+              attach="shadow-camera"
+              args={[-10, 10, -10, 10, 0.1, 50]}
+            />
+          </spotLight>
         </Suspense>
       </ErrorBoundary>
       {/* </Pathtracer> */}

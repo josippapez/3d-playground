@@ -7,9 +7,12 @@ import { Floor } from '@app/_components/Floor';
 import { Lights } from '@app/_components/Lights';
 import { Loader } from '@app/_components/Loader';
 import {
+  Bvh,
   Html,
   KeyboardControls,
   KeyboardControlsEntry,
+  Scroll,
+  ScrollControls,
   useKeyboardControls,
 } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
@@ -170,115 +173,124 @@ export const Controls: React.FC = () => {
 
   return (
     <>
-      {/* <Background /> */}
-      <Html
-        fullscreen
-        transform={false}
-        className="text-white flex flex-col gap-20"
-      >
-        <div
-          className="overflow-y-auto overflow-x-hidden z-10"
-          onScroll={(e) => {
-            setScroll(
-              // map scroll from 0 to 1
-              e.currentTarget.scrollTop /
-                (e.currentTarget.scrollHeight - e.currentTarget.clientHeight),
-            );
+      <ScrollControls pages={3} damping={0.1}>
+        {/* <Background /> */}
+        <Scroll
+          html
+          style={{
+            color: 'white',
           }}
         >
-          <section
-            className="min-h-svh p-10 self-star flex flex-col justify-between snap-center max-md:p-5"
-            id="section1"
-          >
-            <div className="flex flex-col p-9 w-1/2 max-md:p-0">
-              <h1 className="typo-zinc text-9xl font-bold font-primary max-md:text-6xl">
-                <AnimateSentence
-                  text="Discover the Three Graces"
-                  style="word-by-word"
-                  delay={0}
-                />
-              </h1>
-            </div>
-            <div className="flex flex-col backdrop-blur bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 w-fit max-w-[50%]">
-              <p className="typo-base font-mono text-xl">
-                Welcome to our digital showcase dedicated to the timeless
-                elegance of the Three Graces. Immerse yourself in the beauty of
-                classical sculpture
-              </p>
-            </div>
-          </section>
-
-          <section
-            className="min-h-svh p-10 self-end flex flex-col w-full snap-center justify-between"
-            id="section2"
-          >
-            <div className="flex flex-col p-9 w-1/2 max-md:p-0 self-end">
-              <h2 className="typo-zinc text-6xl font-bold font-primary text-right">
-                Experience the Grace
-              </h2>
-            </div>
-            <div className="flex flex-col backdrop-blur self-end bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 max-w-[50%]">
-              <p className="typo-base font-mono text-xl">
-                Explore the exquisite details of the Three Graces from every
-                angle. Zoom in to appreciate the intricacies of their forms and
-                marvel at their enduring charm.
-              </p>
-            </div>
-          </section>
-
-          <section
-            className="min-h-svh p-10 self-center flex flex-col w-full justify-between snap-center"
-            id="section2"
-          >
-            <div className="flex flex-col p-9 w-1/2 max-md:p-0">
-              <h2 className="typo-zinc text-6xl font-bold font-primary">
-                A Timeless Tribute
-              </h2>
-            </div>
-            <div className="flex flex-col backdrop-blur self-end bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 max-w-[50%]">
-              <p className="typo-base font-mono text-xl">
-                Learn about the history and symbolism behind the Three Graces,
-                celebrated for their embodiment of charm, beauty, and creativity
-                throughout the ages.
-              </p>
-            </div>
-          </section>
-
-          <motion.section
-            className="min-h-svh p-10 self-center flex flex-col w-full justify-between snap-center"
-            id="section2"
-            viewport={{
-              amount: 'all',
+          {/* <Html
+          fullscreen
+          transform={false}
+          className="text-white flex flex-col gap-20"
+        > */}
+          <div
+            className="overflow-y-auto overflow-x-hidden z-10"
+            onScroll={(e) => {
+              setScroll(
+                // map scroll from 0 to 1
+                e.currentTarget.scrollTop /
+                  (e.currentTarget.scrollHeight - e.currentTarget.clientHeight),
+              );
             }}
-            onViewportEnter={() => {}}
-            onViewportLeave={() => {}}
-            // on viewport enter set camera position to the center of the section
           >
-            <div className="flex flex-col p-9 w-1/2 max-md:p-0 self-end">
-              <h2 className="typo-zinc text-6xl font-bold font-primary text-right">
-                Bring Grace to Your Space
-              </h2>
-            </div>
-            <div className="flex flex-col backdrop-blur bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 max-w-[50%]">
-              <p className="typo-base font-mono text-xl">
-                Enhance your digital projects or presentations with the elegance
-                of the Three Graces. Contact us to inquire about licensing
-                options.
-              </p>
-            </div>
-          </motion.section>
-        </div>
-      </Html>
-      {/* <div className="fixed left-0 top-0 h-full w-full -z-[1]"> */}
-      <DoorCanvas
-        enableStats={enableStats}
-        position={[0, 0, 0]}
-        widthSize={widthSize}
-        heightSize={heightSize}
-        timeOfDay={timeOfDay}
-        {...modelProps}
-      />
+            <section
+              className="min-h-svh p-10 self-star flex flex-col justify-between snap-center max-md:p-5"
+              id="section1"
+            >
+              <div className="flex flex-col p-9 w-1/2 max-md:p-0">
+                <h1 className="typo-zinc text-9xl font-bold font-primary max-md:text-6xl">
+                  <AnimateSentence
+                    text="Discover the Three Graces"
+                    style="word-by-word"
+                    delay={0}
+                  />
+                </h1>
+              </div>
+              <div className="flex flex-col backdrop-blur bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 w-fit max-w-[50%]">
+                <p className="typo-base font-mono text-xl">
+                  Welcome to our digital showcase dedicated to the timeless
+                  elegance of the Three Graces. Immerse yourself in the beauty
+                  of classical sculpture
+                </p>
+              </div>
+            </section>
 
+            <section
+              className="min-h-svh p-10 self-end flex flex-col w-full snap-center justify-between"
+              id="section2"
+            >
+              <div className="flex flex-col p-9 w-1/2 max-md:p-0 self-end">
+                <h2 className="typo-zinc text-6xl font-bold font-primary text-right">
+                  Experience the Grace
+                </h2>
+              </div>
+              <div className="flex flex-col backdrop-blur self-end bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 max-w-[50%]">
+                <p className="typo-base font-mono text-xl">
+                  Explore the exquisite details of the Three Graces from every
+                  angle. Zoom in to appreciate the intricacies of their forms
+                  and marvel at their enduring charm.
+                </p>
+              </div>
+            </section>
+
+            <section
+              className="min-h-svh p-10 self-center flex flex-col w-full justify-between snap-center"
+              id="section2"
+            >
+              <div className="flex flex-col p-9 w-1/2 max-md:p-0">
+                <h2 className="typo-zinc text-6xl font-bold font-primary">
+                  A Timeless Tribute
+                </h2>
+              </div>
+              <div className="flex flex-col backdrop-blur self-end bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 max-w-[50%]">
+                <p className="typo-base font-mono text-xl">
+                  Learn about the history and symbolism behind the Three Graces,
+                  celebrated for their embodiment of charm, beauty, and
+                  creativity throughout the ages.
+                </p>
+              </div>
+            </section>
+
+            <motion.section
+              className="min-h-svh p-10 self-center flex flex-col w-full justify-between snap-center"
+              id="section2"
+              viewport={{
+                amount: 'all',
+              }}
+              onViewportEnter={() => {}}
+              onViewportLeave={() => {}}
+              // on viewport enter set camera position to the center of the section
+            >
+              <div className="flex flex-col p-9 w-1/2 max-md:p-0 self-end">
+                <h2 className="typo-zinc text-6xl font-bold font-primary text-right">
+                  Bring Grace to Your Space
+                </h2>
+              </div>
+              <div className="flex flex-col backdrop-blur bg-white bg-opacity-[2%] p-9 rounded-3xl justify-center gap-6 max-w-[50%]">
+                <p className="typo-base font-mono text-xl">
+                  Enhance your digital projects or presentations with the
+                  elegance of the Three Graces. Contact us to inquire about
+                  licensing options.
+                </p>
+              </div>
+            </motion.section>
+          </div>
+          {/* </Html> */}
+        </Scroll>
+        {/* <div className="fixed left-0 top-0 h-full w-full -z-[1]"> */}
+
+        <DoorCanvas
+          enableStats={enableStats}
+          position={[0, 0, 0]}
+          widthSize={widthSize}
+          heightSize={heightSize}
+          timeOfDay={timeOfDay}
+          {...modelProps}
+        />
+      </ScrollControls>
       {/* <GameCanvas timeOfDay={timeOfDay} /> */}
       {/* </div> */}
     </>

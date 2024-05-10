@@ -32,9 +32,9 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
     visible: true,
     // enableHelpers: true,
     position: {
-      x: 3.5,
-      y: 2.0,
-      z: 4,
+      x: 13.5,
+      y: 12.0,
+      z: 14,
     },
     castShadow: true,
     intensity: {
