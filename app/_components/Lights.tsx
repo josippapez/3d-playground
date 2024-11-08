@@ -57,15 +57,15 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
 
   const { shadowNormalBias, shadowBias } = useControls({
     shadowBias: {
-      value: -0.0014,
-      min: -0.0030,
-      max: 0.0010,
+      value: 0,
+      min: -0.003,
+      max: 0.001,
       step: 0.0001,
     },
     shadowNormalBias: {
-      value: 0,
-      min: -0.020,
-      max: 0.020,
+      value: 0.2,
+      min: -0.02,
+      max: 0.02,
       step: 0.001,
     },
   });
@@ -142,8 +142,8 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
         <directionalLight
           shadow-bias={shadowBias}
           shadow-normalBias={shadowNormalBias}
-          shadow-mapSize-width={1024}
-          shadow-mapSize-height={1024}
+          shadow-mapSize-width={2048}
+          shadow-mapSize-height={2048}
           shadow-camera-near={0}
           shadow-camera-far={25}
           shadow-camera-left={-3}
@@ -152,23 +152,19 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
           shadow-camera-bottom={-3}
           ref={directionalLightHelperRef}
           visible={directionalCtl.visible}
-          intensity={directionalCtl.intensity}
+          intensity={40}
           castShadow={directionalCtl.castShadow}
-          position={[
-            directionalCtl.position.x,
-            directionalCtl.position.y,
-            directionalCtl.position.z,
-          ]}
+          position={[5, 12, 10]}
           color={directionalCtl.dayColor}
         />
         <directionalLight
           castShadow
-          intensity={30}
-          position={[-4, 1, 2]}
+          intensity={40}
+          position={[-4, 14, 6]}
           shadow-bias={shadowBias}
           shadow-normalBias={shadowNormalBias}
-          shadow-mapSize-width={1024}
-          shadow-mapSize-height={1024}
+          shadow-mapSize-width={2048}
+          shadow-mapSize-height={2048}
           shadow-camera-near={0}
           shadow-camera-far={25}
           shadow-camera-left={-3}
@@ -176,7 +172,7 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
           shadow-camera-top={3}
           shadow-camera-bottom={-3}
         />
-        <directionalLight
+        {/* <directionalLight
           shadow-bias={shadowBias}
           shadow-normalBias={shadowNormalBias}
           shadow-mapSize-width={1024}
@@ -197,7 +193,7 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
             directionalCtl.position.z,
           ]}
           color={directionalCtl.nightColor}
-        />
+        /> */}
       </group>
     </>
   );

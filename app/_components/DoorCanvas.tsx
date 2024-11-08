@@ -1,16 +1,16 @@
 'use client';
 import { DoorModel } from '@app/_components/DoorModel';
 import { Effects } from '@app/_components/Effects';
+import { Lights } from '@app/_components/Lights';
 import { Loader } from '@app/_components/Loader';
 import {
   AdaptiveDpr,
   CameraControls,
-  Environment,
+  Center,
   Html,
   SoftShadows,
   Stats,
 } from '@react-three/drei';
-import { Canvas } from '@react-three/fiber';
 import { useControls } from 'leva';
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
 import { Suspense } from 'react';
@@ -28,9 +28,9 @@ export function DoorCanvas(
     {
       debug: true,
       enabled: true,
-      size: { value: 35, min: 0, max: 100, step: 0.1 },
-      focus: { value: 0.5, min: 0, max: 2, step: 0.1 },
-      samples: { value: 5, min: 1, max: 40, step: 1 },
+      size: { value: 1, min: 0, max: 100, step: 0.1 },
+      focus: { value: 0.1, min: 0, max: 2, step: 0.1 },
+      samples: { value: 15, min: 1, max: 40, step: 1 },
     },
     undefined,
     { collapsed: true },
@@ -40,14 +40,14 @@ export function DoorCanvas(
     <>
       <AdaptiveDpr pixelated />
       {/* <Pathtracer> */}
-      <pointLight position={[10, -10, -20]} intensity={10} />
-      <pointLight position={[-10, -10, -20]} intensity={10} />
-      {enabled && <SoftShadows samples={samples} />}
+      {enabled && <SoftShadows samples={samples} focus={focus} size={size} />}
       <Effects />
       {/* <Skybox timeOfDay={props.timeOfDay} /> */}
-      {/* <Lights timeOfDay={props.timeOfDay} /> */}
       {/* <Environment files={'/studio_garden_1k.hdr'} /> */}
       {/* <Floor /> */}
+      <pointLight position={[10, -10, -20]} intensity={10} />
+      <pointLight position={[-10, -10, -20]} intensity={10} />
+      <Lights timeOfDay={props.timeOfDay} />
       <ErrorBoundary
         errorComponent={() => (
           <Html className="text-white">
@@ -57,7 +57,9 @@ export function DoorCanvas(
       >
         <Suspense fallback={<Loader />}>
           {/* <ScrollControls pages={3}> */}
-          <DoorModel {...props} position={[0, -2.5, 0]} />
+          <Center>
+            <DoorModel {...props} position={[0, 0, 0]} />
+          </Center>
           {/* </ScrollControls> */}
           {/* <OrbitControls makeDefault autoRotate={false} /> */}
           <CameraControls

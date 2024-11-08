@@ -12,7 +12,9 @@ import {
   Outline,
   GodRays,
   ShockWave,
+  FXAA,
 } from '@react-three/postprocessing';
+import { EdgeDetectionMode } from 'postprocessing';
 import { useControls } from 'leva';
 // import { ToneMappingMode } from 'postprocessing';
 import { useMemo } from 'react';
@@ -47,7 +49,7 @@ export function Effects() {
       // },
       luminanceThreshold: { value: 4, min: 0, max: 4, step: 0.05 },
       luminanceSmoothing: { value: 50, min: 0, max: 50, step: 1 },
-      intensity: { value: 0.2, min: 0, max: 1, step: 0.01 },
+      intensity: { value: 0.01, min: 0, max: 1, step: 0.01 },
       maxLuminance: { value: 50, min: 0, max: 50, step: 1 },
       minLuminance: { value: 0, min: 0, max: 50, step: 1 },
       whitePoint: { value: 16, min: 0, max: 64, step: 1 },
@@ -63,7 +65,7 @@ export function Effects() {
       <EffectComposer
         camera={camera}
         scene={scene}
-        multisampling={2}
+        multisampling={3}
         resolutionScale={1}
         renderPriority={2}
         enableNormalPass
@@ -72,12 +74,13 @@ export function Effects() {
         {/* <GodRays /> */}
         {/* <Pixelation granularity={5} /> */}
         {/* <DepthOfField
-        focusDistance={0}
-        focalLength={0.02}
-        bokehScale={2}
-        height={480}
-      /> */}
+          focusDistance={0}
+          focalLength={0.02}
+          bokehScale={2}
+          height={480}
+        /> */}
         <SMAA />
+        <FXAA subpixelQuality={1} />
         <Bloom
           luminanceThreshold={luminanceThreshold}
           mipmapBlur
@@ -85,7 +88,7 @@ export function Effects() {
           luminanceSmoothing={luminanceSmoothing}
           intensity={intensity}
         />
-        <Noise opacity={0.02} />
+        {/* <Noise opacity={0.02} /> */}
         {enableToneMapping ? (
           // <ToneMapping
           //   mainCamera={camera}

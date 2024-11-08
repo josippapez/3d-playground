@@ -1,13 +1,24 @@
 'use client';
 
 import { useStore } from '@app/(index)/Controls';
-import { Html, useAnimations, useGLTF } from '@react-three/drei';
+import {
+  Html,
+  MeshReflectorMaterial,
+  useAnimations,
+  useGLTF,
+} from '@react-three/drei';
 import { HtmlProps } from '@react-three/drei/web/Html';
 import { useFrame } from '@react-three/fiber';
 import { useControls } from 'leva';
 import { easing } from 'maath';
 import { useEffect, useMemo, useRef } from 'react';
-import { Group, Mesh, MeshLambertMaterial, Object3DEventMap } from 'three';
+import {
+  Group,
+  Mesh,
+  MeshLambertMaterial,
+  MeshPhysicalMaterial,
+  Object3DEventMap,
+} from 'three';
 
 type Props = {
   widthSize: number;
@@ -24,7 +35,7 @@ export const DoorModel: React.FC<Props> = ({
   const { scroll, setModel } = useStore();
   // const scroll = useScroll();
   const { mousePosition } = useStore();
-  const { nodes, scene, animations, scenes } = useGLTF(`/graces-draco2.glb`);
+  const { nodes, scene, animations, scenes } = useGLTF(`/framer.glb`);
 
   const { ref, mixer, names, actions, clips } = useAnimations(animations);
 
@@ -48,18 +59,59 @@ export const DoorModel: React.FC<Props> = ({
       if (node instanceof Mesh) {
         node.castShadow = true;
         node.receiveShadow = true;
-        // node.material.envMapIntensity = 0.8;
-        // this is needed because ambient light is not working materials with metalness set to 1
-        // That's because metalness pratically reflects light and becomes darker (or in other words
-        // the perfect metal doesn't exist in real life)
-        if (node.material.metalness === 1) {
-          node.material.metalness = 0.9;
-        }
 
-        if (node.name === 'Node_3') {
-          const lambertMaterial = new MeshLambertMaterial({ color: '#404044' });
-          node.material = lambertMaterial;
-        }
+        console.log(node);
+
+        // blur={[0, 0]} // Blur ground reflections (width, height), 0 skips blur
+        // mixBlur={0} // How much blur mixes with surface roughness (default = 1)
+        // mixStrength={1} // Strength of the reflections
+        // mixContrast={1} // Contrast of the reflections
+        // resolution={256} // Off-buffer resolution, lower=faster, higher=better quality, slower
+        // mirror={0} // Mirror environment, 0 = texture colors, 1 = pick up env colors
+        // depthScale={0} // Scale the depth factor (0 = no depth, default = 0)
+        // minDepthThreshold={0.9} // Lower edge for the depthTexture interpolation (default = 0)
+        // maxDepthThreshold={1} // Upper edge for the depthTexture interpolation (default = 0)
+        // depthToBlurRatioBias={0.25} // Adds a bias factor to the depthTexture before calculating the blur amount [blurFactor = blurTexture * (depthTexture + bias)]. It accepts values between 0 and 1, default is 0.25. An amount > 0 of bias makes sure that the blurTexture is not too sharp because of the multiplication with the depthTexture
+        // distortion={1} // Amount of distortion based on the distortionMap texture
+        // distortionMap={distortionTexture} // The red channel of this texture is used as the distortion map. Default is null
+        // debug={0} // Depending on the assigned value, one of the following channels is shown:
+        // //0 = no debug
+        // //1 = depth channel
+        // //2 = base channel
+        // //3 = distortion channel
+        // //4 = lod channel (based on the roughness)
+        // //
+        // reflectorOffset={0.2}
+
+        // const physicalMaterial = new MeshPhysicalMaterial({
+        //   color: '#FFFFFF',
+        //   roughness: 0.1, // Lower roughness for a shi
+        //   metalness: 1, // High metalness for re
+        //   reflectivity: 1, // Full re
+        //   clearcoat: 1, // Additional layer of re
+        //   clearcoatRoughness: 0, // Smooth
+        //   transmission: 0.9, // Makes it glass-like by adding tr
+        //   ior: 1.5, // Index of refraction for gl
+        //   thickness: 0.5, // Thickness of the transpar
+        // });
+        // node.material = physicalMaterial;
+
+        // const tempMaterial = new MeshPhysicalMaterial({
+        //   ...node.material,
+        //   // color: '#FFFFFF',
+        //   roughness: 0.1, // Lower roughness for a shi
+        //   metalness: 1, // High metalness for re
+        //   clearcoat: 1, // Additional layer of re
+        //   clearcoatRoughness: 0.25, // Smooth
+
+        //   // transmission: 0.9, // Makes it glass-like by adding tr
+        //   // ior: 1.5, // Index of refraction for gl
+        //   // thickness: 0.5, // Thickness of the transpar
+        // });
+        node.material.clearcoat = 1;
+        node.material.clearcoatRoughness = 0;
+        node.material.roughness = 0.9;
+        node.material.metalness = 1;
       }
     });
   }, [nodes]);
@@ -130,7 +182,7 @@ export const DoorModel: React.FC<Props> = ({
           roughness={1}
         />
       </mesh> */}
-      <spotLight
+      {/* <spotLight
         angle={0.5}
         penumbra={0.5}
         ref={light}
@@ -142,9 +194,9 @@ export const DoorModel: React.FC<Props> = ({
       >
         <orthographicCamera
           attach="shadow-camera"
-          args={[-10, 10, -10, 10, 0.1, 50]}
+          args={[0, 0, 0, 0, 0.1, 50]}
         />
-      </spotLight>
+      </spotLight> */}
     </group>
     // </Stage>
   );

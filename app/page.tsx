@@ -7,7 +7,7 @@ import { Leva } from 'leva';
 
 export default function Page() {
   return (
-    <main className="overflow-hidden grid grid-cols-48 min-h-svh bg-black">
+    <main className="overflow-hidden grid grid-cols-48 min-h-svh">
       <Leva collapsed hidden={false} />
       <Canvas
         // performance={{
@@ -18,7 +18,7 @@ export default function Page() {
         // frameloop="always"
         shadows="basic"
         // className="bg-gradient-to-b from-black via-black via-[80%] to-stone-800"
-        className="bg-stone-950 col-span-full !select-auto !pointer-events-auto"
+        className="bg-black col-span-full !select-auto !pointer-events-auto"
         gl={{
           // antialias: true,
           // enable later in production
@@ -29,8 +29,8 @@ export default function Page() {
         }}
         camera={{
           type: 'OrthographicCamera',
-          zoom: 1.3,
-          // position: [0.5, 1, 10],
+          zoom: 4,
+          // position: [0, 0, 2],
           // near: 1,
           // far: 25,
         }}
