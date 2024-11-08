@@ -14,7 +14,7 @@ export default function Page() {
         //   min: 0.1,
         //   max: 1,
         // }}
-        dpr={1}
+        dpr={[1, 2]}
         // frameloop="always"
         shadows="basic"
         // className="bg-gradient-to-b from-black via-black via-[80%] to-stone-800"

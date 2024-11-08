@@ -2,19 +2,11 @@ import { useThree } from '@react-three/fiber';
 import {
   Bloom,
   EffectComposer,
-  Noise,
-  SMAA,
-  SSR,
-  ToneMapping,
-  DepthOfField,
-  Pixelation,
-  Glitch,
-  Outline,
-  GodRays,
-  ShockWave,
   FXAA,
+  N8AO,
+  SSAO,
+  ToneMapping,
 } from '@react-three/postprocessing';
-import { EdgeDetectionMode } from 'postprocessing';
 import { useControls } from 'leva';
 // import { ToneMappingMode } from 'postprocessing';
 import { useMemo } from 'react';
@@ -79,7 +71,7 @@ export function Effects() {
           bokehScale={2}
           height={480}
         /> */}
-        <SMAA />
+        <N8AO />
         <FXAA subpixelQuality={1} />
         <Bloom
           luminanceThreshold={luminanceThreshold}
