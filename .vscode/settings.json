@@ -1,6 +1,7 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.biome": "explicit",
   },
   "typescript.tsdk": "./node_modules/typescript/lib",
   "eslint.validate": ["typescript", "typescriptreact"],

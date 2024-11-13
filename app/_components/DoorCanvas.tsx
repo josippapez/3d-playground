@@ -38,16 +38,16 @@ export function DoorCanvas(
 
   return (
     <>
-      <AdaptiveDpr pixelated />
+      {/* <AdaptiveDpr pixelated /> */}
       {/* <Pathtracer> */}
-      {enabled && <SoftShadows samples={samples} focus={focus} size={size} />}
+      {/* {enabled && <SoftShadows samples={samples} focus={focus} size={size} />} */}
       <Effects />
       {/* <Skybox timeOfDay={props.timeOfDay} /> */}
       {/* <Environment files={'/studio_garden_1k.hdr'} /> */}
       {/* <Floor /> */}
-      <pointLight position={[10, -10, -20]} intensity={10} />
-      <pointLight position={[-10, -10, -20]} intensity={10} />
-      <Lights timeOfDay={props.timeOfDay} />
+      {/* <pointLight position={[10, -10, -20]} intensity={10} />
+      <pointLight position={[-10, -10, -20]} intensity={10} /> */}
+      {/* <Lights timeOfDay={props.timeOfDay} /> */}
       <ErrorBoundary
         errorComponent={() => (
           <Html className="text-white">

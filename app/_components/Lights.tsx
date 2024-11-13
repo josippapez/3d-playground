@@ -7,9 +7,9 @@ import { useRef } from 'react';
 import {
   CameraHelper,
   Color,
-  DirectionalLight,
+  type DirectionalLight,
   DirectionalLightHelper,
-  Group,
+  type Group,
 } from 'three';
 
 type Props = {
@@ -31,14 +31,19 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
   const directionalCtl = useControls('Directional Light', {
     visible: true,
     // enableHelpers: true,
+    // position: {
+    //   x: 3.5,
+    //   y: 2.0,
+    //   z: 4,
+    // },
     position: {
-      x: 3.5,
-      y: 2.0,
-      z: 4,
+      x: -9,
+      y: 17,
+      z: 8.7,
     },
     castShadow: true,
     intensity: {
-      value: 10,
+      value: 50,
       min: 0,
       max: 50,
       step: 1,
@@ -76,10 +81,7 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
   // useHelper(directionalLightHelperRef, DirectionalLightHelper, 1, 'red');
   // useHelper(directionalLightHelperRef2, DirectionalLightHelper, 1, 'black');
 
-  // if (
-  //   directionalLightHelperRef.current &&
-  //   directionalLightHelperRef2.current
-  // ) {
+  // if (directionalLightHelperRef.current && directionalLightHelperRef2.current) {
   //   const cameraHelper = new CameraHelper(
   //     directionalLightHelperRef.current.shadow.camera,
   //   );
@@ -150,17 +152,22 @@ export const Lights: React.FC<Props> = ({ timeOfDay }) => {
           shadow-camera-right={3}
           shadow-camera-top={3}
           shadow-camera-bottom={-3}
-          ref={directionalLightHelperRef}
           visible={directionalCtl.visible}
-          intensity={40}
+          intensity={directionalCtl.intensity}
           castShadow={directionalCtl.castShadow}
           position={[5, 12, 10]}
           color={directionalCtl.dayColor}
         />
         <directionalLight
           castShadow
-          intensity={40}
-          position={[-4, 14, 6]}
+          intensity={directionalCtl.intensity}
+          // position={[-4, 14, 6]}
+          position={[
+            directionalCtl.position.x,
+            directionalCtl.position.y,
+            directionalCtl.position.z,
+          ]}
+          ref={directionalLightHelperRef}
           shadow-bias={shadowBias}
           shadow-normalBias={shadowNormalBias}
           shadow-mapSize-width={2048}

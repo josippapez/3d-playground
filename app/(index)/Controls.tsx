@@ -9,7 +9,7 @@ import { Loader } from '@app/_components/Loader';
 import {
   Html,
   KeyboardControls,
-  KeyboardControlsEntry,
+  type KeyboardControlsEntry,
   useKeyboardControls,
 } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
@@ -17,7 +17,12 @@ import { motion } from 'framer-motion';
 import { useControls } from 'leva';
 import { easing } from 'maath';
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
-import { Group, Object3DEventMap, ShaderMaterial, Vector3 } from 'three';
+import {
+  type Group,
+  type Object3DEventMap,
+  type ShaderMaterial,
+  Vector3,
+} from 'three';
 import { create } from 'zustand';
 
 // Define the vertex shader with a waving effect
@@ -278,107 +283,6 @@ export const Controls: React.FC = () => {
         timeOfDay={timeOfDay}
         {...modelProps}
       />
-
-      {/* <GameCanvas timeOfDay={timeOfDay} /> */}
-      {/* </div> */}
     </>
-  );
-};
-
-const GameCanvas: React.FC<{
-  timeOfDay: 'day' | 'night';
-}> = ({ timeOfDay }) => {
-  const map = useMemo<KeyboardControlsEntry<ControlsKeys>[]>(
-    () => [
-      { name: ControlsKeys.forward, keys: ['ArrowUp', 'KeyW'] },
-      { name: ControlsKeys.back, keys: ['ArrowDown', 'KeyS'] },
-      { name: ControlsKeys.left, keys: ['ArrowLeft', 'KeyA'] },
-      { name: ControlsKeys.right, keys: ['ArrowRight', 'KeyD'] },
-      { name: ControlsKeys.jump, keys: ['Space'] },
-    ],
-    [],
-  );
-  return (
-    <Canvas
-      shadows
-      gl={{
-        antialias: true,
-        // enable later in production
-        // antialias: false,
-        // stencil: false,
-        // depth: false,
-        // powerPreference: 'high-performance',
-      }}
-      // rotate camera by 180 degrees
-      camera={{
-        zoom: 1,
-      }}
-    >
-      <Suspense fallback={<Loader />}>
-        <Lights timeOfDay={timeOfDay} />
-        <Effects />
-        <Floor />
-        {/* render white sprite as a player that can shoot pixels */}
-        <KeyboardControls map={map}>
-          <Player />
-        </KeyboardControls>
-        <axesHelper args={[3]} />
-      </Suspense>
-    </Canvas>
-  );
-};
-
-const useEventListener = (eventName: string, handler: (e: any) => void) => {
-  useEffect(() => {
-    window.addEventListener(eventName, handler);
-    return () => {
-      window.removeEventListener(eventName, handler);
-    };
-  }, [eventName, handler]);
-};
-
-const Player = () => {
-  const [sub, get] = useKeyboardControls<ControlsKeys>();
-  const { color, size } = useControls('Player', {
-    color: '#ff0000',
-    size: 1,
-  });
-
-  const playerRef = useRef<any>();
-
-  // add WASD controls to move the player
-  const speed = 50;
-  const { clock, camera } = useThree();
-
-  useFrame(() => {
-    const verticalAxes = get().forward ? 1 : get().back ? -1 : 0;
-    const horizontalAxes = get().left ? -1 : get().right ? 1 : 0;
-    const direction = new Vector3(horizontalAxes, verticalAxes, 0);
-    direction.normalize();
-    playerRef.current?.position.add(
-      direction.multiplyScalar(speed * clock.getDelta()),
-    );
-
-    if (playerRef.current) {
-      camera.lookAt(playerRef.current?.position);
-      // center camera on playerRef
-      camera.position.set(
-        playerRef.current.position.x,
-        playerRef.current.position.y,
-        10,
-      );
-    }
-
-    // if (useKeyPress('shift')) {
-    //   // Implement your AddSpeed logic here
-    // }
-  });
-
-  return (
-    <mesh ref={playerRef}>
-      <sprite scale={size}>
-        <spriteMaterial attach="material" color={color} />
-      </sprite>
-    </mesh>
   );
 };

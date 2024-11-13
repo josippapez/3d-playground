@@ -57,9 +57,9 @@ export function Effects() {
       <EffectComposer
         camera={camera}
         scene={scene}
-        multisampling={3}
+        multisampling={1}
         resolutionScale={1}
-        renderPriority={2}
+        renderPriority={4}
         enableNormalPass
         enabled={enableFX}
       >
@@ -71,15 +71,15 @@ export function Effects() {
           bokehScale={2}
           height={480}
         /> */}
-        <N8AO />
-        <FXAA subpixelQuality={1} />
-        <Bloom
+        {/* <N8AO /> */}
+        {/* <FXAA subpixelQuality={1} /> */}
+        {/* <Bloom
           luminanceThreshold={luminanceThreshold}
           mipmapBlur
           resolutionScale={1}
           luminanceSmoothing={luminanceSmoothing}
           intensity={intensity}
-        />
+        /> */}
         {/* <Noise opacity={0.02} /> */}
         {enableToneMapping ? (
           // <ToneMapping
@@ -103,6 +103,6 @@ export function Effects() {
         )}
       </EffectComposer>
     ),
-    [enableFX, enableToneMapping, scene],
+    [camera, enableFX, enableToneMapping, intensity, luminanceSmoothing, luminanceThreshold, scene],
   );
 }
